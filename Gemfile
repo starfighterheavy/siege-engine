@@ -10,6 +10,7 @@ gem 'puma', '~> 3.7'
 gem 'jbuilder', '~> 2.5'
 gem 'redis', '~> 3.0'
 gem 'sidekiq'
+gem "attr_encrypted", "~> 3.0.0"
 
 group :development, :test do
   gem 'sqlite3'
