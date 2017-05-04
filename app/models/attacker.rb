@@ -5,4 +5,3 @@ class Attacker < ActiveRecord::Base
 
   validates_presence_of :username, :password, :login_url
 end
-

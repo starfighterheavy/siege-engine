@@ -10,64 +10,70 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170504213537) do
-
-  create_table "access_keys", force: :cascade do |t|
-    t.string "access_key_id"
-    t.string "encrypted_secret_access_key"
-    t.string "encrypted_secret_access_key_iv"
-    t.integer "max_strikes"
-    t.integer "max_sieges"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["access_key_id"], name: "index_access_keys_on_access_key_id"
+ActiveRecord::Schema.define(version: 20_170_504_213_537) do
+  create_table 'access_keys', force: :cascade do |t|
+    t.string 'access_key_id'
+    t.string 'encrypted_secret_access_key'
+    t.string 'encrypted_secret_access_key_iv'
+    t.integer 'max_strikes'
+    t.integer 'max_sieges'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+    t.index ['access_key_id'], name: 'index_access_keys_on_access_key_id'
   end
 
-  create_table "attackers", force: :cascade do |t|
-    t.integer "siege_id"
-    t.string "username"
-    t.string "encrypted_password"
-    t.string "encrypted_password_iv"
-    t.string "username_field"
-    t.string "passsword_field"
-    t.string "login_url"
-    t.text "cookie"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["siege_id"], name: "index_attackers_on_siege_id"
+  create_table 'attackers', force: :cascade do |t|
+    t.integer 'siege_id'
+    t.string 'username'
+    t.string 'encrypted_password'
+    t.string 'encrypted_password_iv'
+    t.string 'username_field'
+    t.string 'passsword_field'
+    t.string 'login_url'
+    t.text 'cookie'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+    t.index ['siege_id'], name: 'index_attackers_on_siege_id'
   end
 
-  create_table "results", force: :cascade do |t|
-    t.integer "siege_id"
-    t.integer "target_id"
-    t.integer "code"
-    t.integer "time"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["siege_id"], name: "index_results_on_siege_id"
-    t.index ["target_id"], name: "index_results_on_target_id"
+  create_table 'reports', force: :cascade do |t|
+    t.integer 'siege_id'
+    t.string 'status'
+    t.text 'content'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
   end
 
-  create_table "sieges", force: :cascade do |t|
-    t.integer "access_key_id"
-    t.integer "strikes"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["access_key_id"], name: "index_sieges_on_access_key_id"
+  create_table 'results', force: :cascade do |t|
+    t.integer 'siege_id'
+    t.integer 'target_id'
+    t.integer 'code'
+    t.integer 'time'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+    t.index ['siege_id'], name: 'index_results_on_siege_id'
+    t.index ['target_id'], name: 'index_results_on_target_id'
   end
 
-  create_table "targets", force: :cascade do |t|
-    t.integer "siege_id"
-    t.integer "user_id"
-    t.string "method"
-    t.text "url"
-    t.text "body"
-    t.string "content_type"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["siege_id"], name: "index_targets_on_siege_id"
-    t.index ["user_id"], name: "index_targets_on_user_id"
-    t.index [nil], name: "index_targets_on_url_id"
+  create_table 'sieges', force: :cascade do |t|
+    t.integer 'access_key_id'
+    t.integer 'strikes'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+    t.index ['access_key_id'], name: 'index_sieges_on_access_key_id'
   end
 
+  create_table 'targets', force: :cascade do |t|
+    t.integer 'siege_id'
+    t.integer 'attacker_id'
+    t.integer 'priority'
+    t.string 'method'
+    t.text 'url'
+    t.text 'body'
+    t.string 'content_type'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+    t.index ['attacker_id'], name: 'index_targets_on_attacker_id'
+    t.index ['siege_id'], name: 'index_targets_on_siege_id'
+  end
 end

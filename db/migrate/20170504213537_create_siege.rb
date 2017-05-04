@@ -35,7 +35,8 @@ class CreateSiege < ActiveRecord::Migration[5.1]
 
     create_table :targets do |t|
       t.integer :siege_id
-      t.integer :user_id
+      t.integer :attacker_id
+      t.integer :priority
       t.string :method
       t.text :url
       t.text :body
@@ -44,14 +45,20 @@ class CreateSiege < ActiveRecord::Migration[5.1]
     end
 
     add_index(:targets, :siege_id)
-    add_index(:targets, :user_id)
-    add_index(:targets, :url_id)
+    add_index(:targets, :attacker_id)
 
     create_table :results do |t|
       t.integer :siege_id
       t.integer :target_id
       t.integer :code
       t.integer :time
+      t.timestamps
+    end
+
+    create_table :reports do |t|
+      t.integer :siege_id
+      t.string :status
+      t.text :content
       t.timestamps
     end
 
