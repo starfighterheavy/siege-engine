@@ -1,4 +1,4 @@
-require 'secure_random'
+require 'securerandom'
 
 class AccessKey < ActiveRecord::Base
   attr_encrypted :secret_access_key
