@@ -1,6 +1,6 @@
 module Api
   module V1
-    class ReportsController
+    class ReportsController < ApiController
       before_action :load_and_authorize_siege
       before_action :load_and_authorize_report, only: [:show]
 
