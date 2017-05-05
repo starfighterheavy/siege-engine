@@ -21,7 +21,9 @@ Rails.application.routes.draw do
       resources :volleys do
         resources :results
         resources :reports do
-          get :download
+          member do
+            get :download
+          end
         end
       end
     end
