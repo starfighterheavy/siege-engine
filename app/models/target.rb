@@ -5,6 +5,7 @@ class Target < ActiveRecord::Base
   def to_h
     {
       id: id,
+      attacker_id: attacker.id,
       priority: priority,
       method: method,
       url: url,

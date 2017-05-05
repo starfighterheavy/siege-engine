@@ -1,7 +1,7 @@
 require_dependency 'report_worker'
 
 class Report < ActiveRecord::Base
-  belongs_to :siege
+  belongs_to :volley
 
   after_commit on: [:create] do
     ReportWorker.perform_async(id)

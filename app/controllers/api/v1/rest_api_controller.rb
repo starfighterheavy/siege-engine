@@ -1,6 +1,11 @@
 module Api
   module V1
     class RestApiController < ApiController
+
+    rescue_from ActiveRecord::RecordNotFound do |e|
+      render json: { errors: [ e.to_s ] }, status: 404
+    end
+
       def index
         render json: resource_collection.map(&:to_h)
       end
@@ -97,9 +102,8 @@ module Api
         def resource
           @resource ||=
             resource_class
-              .where('id = ?', params[:id])
               .where("#{resource_owner_reference} = ?", resource_owner.id)
-              .first
+              .find(params[:id])
         end
 
         def resource_reference

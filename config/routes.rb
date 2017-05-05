@@ -5,13 +5,9 @@ Rails.application.routes.draw do
         resources :volleys do
           member do
             patch :start
+            patch :restart
             patch :pause
             patch :cancel
-          end
-
-          resources :results
-          resources :reports do
-            get :download
           end
         end
 
@@ -20,6 +16,13 @@ Rails.application.routes.draw do
 
       resources :attackers do
         resources :targets
+      end
+
+      resources :volleys do
+        resources :results
+        resources :reports do
+          get :download
+        end
       end
     end
   end

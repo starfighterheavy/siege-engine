@@ -1,25 +1,30 @@
 module Api
   module V1
     class VolleysController < RestApiController
+      def restart
+        resource.restart!
+        render json: resource.to_h
+      end
+
       def start
         unless resource.status.nil?
-          render json: { errors: [ 'Volley already started' ] }, status: 422
+          render json: { errors: [ 'Volley already been started or canceled' ] }, status: 422
         else
           update_status('started')
         end
       end
 
       def pause
-        unless resource.status == 'started'
-          render json: { errors: [ 'Volley has not started' ] }, status: 422
+        if [nil, 'paused', 'canceled'].include? resource.status
+          render json: { errors: [ 'Volley is not running' ] }, status: 422
         else
           update_status('paused')
         end
       end
 
       def cancel
-        unless resource.status == 'started' || resource.status == 'paused'
-          render json: { errors: [ 'Volley has not started or paused' ] }, status: 422
+        if resource.status == 'canceled'
+          render json: { errors: [ 'Volley has already been canceled' ] }, status: 422
         else
           update_status('canceled')
         end

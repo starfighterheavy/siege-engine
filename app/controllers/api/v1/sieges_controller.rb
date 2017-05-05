@@ -6,12 +6,9 @@ module Api
       end
 
       private def resource_create_permitted_params
-        [:strikes]
+        [:name]
       end
-
-      private def resource_update_permitted_params
-        [:strikes]
-      end
+      alias :resource_update_permitted_params :resource_create_permitted_params
     end
   end
 end

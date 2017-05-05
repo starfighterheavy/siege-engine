@@ -1,7 +1,9 @@
 module Api
   module V1
     class ReportsController < RestApiController
-      resource_owner_name :siege
+      before_action :authorize_volley
+
+      resource_owner_name :volley
 
       def download
         render text: Base64.encode64(resource.content)

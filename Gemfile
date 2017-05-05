@@ -12,11 +12,11 @@ gem 'puma', '~> 3.7'
 gem 'rails', '~> 5.1.0'
 gem 'redis', '~> 3.0'
 gem 'sidekiq'
+gem 'pg'
 
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'capybara', '~> 2.13.0'
-  gem 'sqlite3'
 end
 
 group :development do
@@ -25,5 +25,4 @@ group :development do
 end
 
 group :staging, :production do
-  gem 'pg'
 end

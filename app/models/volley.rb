@@ -1,37 +1,58 @@
+require_dependency 'start_volley_worker'
+
 class Volley < ActiveRecord::Base
   belongs_to :siege
   has_many :results, dependent: :destroy
   has_many :reports, dependent: :destroy
 
-  after_update :status_change_listener, if: :status_changed?
+  after_update :status_change_listener, if: :saved_change_to_status?
 
   def to_h
     {
       id: id,
       name: name,
       status: status,
-      results_count: results.count,
-      reports: reports.map(&:to_h)
+      strikes: strikes,
+      results_count: results.count
     }
   end
 
+  def restart!
+    results.destroy_all
+    update_attribute(:status, nil)
+    update_attribute(:status, 'started')
+  end
+
+  def strike_queue
+    sum_priority = siege.targets.sum(:priority)
+    queue = []
+    siege
+      .targets
+      .find_each { |t| queue << Array.new(target_strike_count(t.priority, sum_priority), t.id) }
+    queue.flatten.shuffle
+  end
+
+  def target_strike_count(priority, sum_priority)
+    (strikes.to_f * (priority.to_f / sum_priority.to_f)).to_i
+  end
+
   private def status_change_listener
+    old_value = saved_change_to_status[0]
     if status == 'started'
-      return unless status_was.nil?
+      return unless old_value.nil?
       start!
     elsif status == 'paused'
-      return unless status_was == 'started'
+      return if [nil, 'paused', 'canceled'].include? old_value
       pause!
     elsif status == 'canceled'
-      return unless status_was == 'started' || status_was == 'paused'
+      return if ['canceled'].include? old_value
       cancel!
-    else
-      raise 'unknown status change: ' + status
     end
   end
 
   private def start!
     Rails.logger.info "Starting Volley ##{id}"
+    StartVolleyWorker.perform_async(id)
   end
 
   private def pause!
