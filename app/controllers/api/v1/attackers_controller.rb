@@ -8,7 +8,7 @@ module Api
       end
 
       private def resource_create_permitted_params
-        [:username, :password, :username_field, :password_field, :login_url]
+        [:username, :password, :username_field, :password_field, :new_session_url, :create_session_url]
       end
       alias :resource_update_permitted_params :resource_create_permitted_params
     end

@@ -12,7 +12,8 @@ class Attacker < ActiveRecord::Base
       username: username,
       username_field: username_field,
       password_field: password_field,
-      login_url: login_url
+      new_session_url: new_session_url,
+      create_session_url: create_session_url
     }
   end
 end

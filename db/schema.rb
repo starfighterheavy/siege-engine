@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170505183616) do
+ActiveRecord::Schema.define(version: 20170505234204) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -33,10 +33,11 @@ ActiveRecord::Schema.define(version: 20170505183616) do
     t.string "encrypted_password_iv"
     t.string "username_field"
     t.string "password_field"
-    t.string "login_url"
+    t.string "new_session_url"
     t.text "cookie"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "create_session_url"
     t.index ["siege_id"], name: "index_attackers_on_siege_id"
   end
 
