@@ -4,4 +4,11 @@ class Siege < ActiveRecord::Base
   has_many :targets
   has_many :results
   has_many :reports
+
+  def to_h
+    {
+      id: id,
+      strikes: strikes
+    }
+  end
 end
