@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170505234204) do
+ActiveRecord::Schema.define(version: 20170505235140) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -78,6 +78,7 @@ ActiveRecord::Schema.define(version: 20170505234204) do
     t.string "content_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "authenticated", default: true
     t.index ["attacker_id"], name: "index_targets_on_attacker_id"
     t.index ["siege_id"], name: "index_targets_on_siege_id"
   end
