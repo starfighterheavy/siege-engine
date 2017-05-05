@@ -15,6 +15,12 @@ module Api
       def index
         render json: @siege.attackers.map { |a| { id: a.id, username: a.username, login_url: a.login_url } }
       end
+
+      private
+
+      def attacker_params
+        params.require(:attacker).permit(:username, :password, :username_field, :password_field, :login_url)
+      end
     end
   end
 end

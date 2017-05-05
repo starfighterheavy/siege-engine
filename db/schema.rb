@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170504213537) do
+ActiveRecord::Schema.define(version: 20170504235926) do
 
   create_table "access_keys", force: :cascade do |t|
     t.string "access_key_id"
@@ -29,7 +29,7 @@ ActiveRecord::Schema.define(version: 20170504213537) do
     t.string "encrypted_password"
     t.string "encrypted_password_iv"
     t.string "username_field"
-    t.string "passsword_field"
+    t.string "password_field"
     t.string "login_url"
     t.text "cookie"
     t.datetime "created_at", null: false

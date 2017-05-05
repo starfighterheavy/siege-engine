@@ -24,12 +24,14 @@ module Api
       private
 
         def target_params
-          params.require(:target).permit(:priority, :method, :url, :body, :content_type)
+          params.require(:target)
+                .permit(:priority, :method, :url, :body, :content_type)
+                .merge(siege_id: @siege.id)
         end
 
         def load_and_authorize_attacker
           @attacker = Attacker.find(params[:attacker_id])
-          @siege = @access_key.sieges.find!(@attacker.siege_id)
+          @siege = @access_key.sieges.find(@attacker.siege_id)
         end
     end
   end

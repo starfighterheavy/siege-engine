@@ -24,7 +24,7 @@ module Api
       private
 
         def load_and_authorize_report
-          @report = @siege.reports.find!(params[:id])
+          @report = @siege.reports.find(params[:id])
         end
     end
   end

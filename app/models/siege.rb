@@ -4,9 +4,4 @@ class Siege < ActiveRecord::Base
   has_many :targets
   has_many :results
   has_many :reports
-
-  before_validation do
-    self.max_strikes ||= 10_000
-    self.max_sieges ||= 10
-  end
 end
