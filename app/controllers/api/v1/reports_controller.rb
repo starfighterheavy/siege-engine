@@ -6,7 +6,7 @@ module Api
       resource_owner_name :volley
 
       def download
-        render text: Base64.encode64(resource.content)
+        render plain: Base64.encode64(resource.content)
       end
 
       private def resource_create_permitted_params
