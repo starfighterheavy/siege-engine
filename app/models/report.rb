@@ -11,8 +11,7 @@ class Report < ActiveRecord::Base
     {
       id: id,
       name: name,
-      status: status,
-      content: content
+      status: status
     }
   end
 end

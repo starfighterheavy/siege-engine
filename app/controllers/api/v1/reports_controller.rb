@@ -3,6 +3,10 @@ module Api
     class ReportsController < RestApiController
       resource_owner_name :siege
 
+      def download
+        render text: Base64.encode64(resource.content)
+      end
+
       private def resource_create_permitted_params
         [:name]
       end

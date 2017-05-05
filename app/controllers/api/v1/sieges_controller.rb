@@ -1,7 +1,6 @@
 module Api
   module V1
     class SiegesController < RestApiController
-
       private def resource_owner
         @access_key
       end
