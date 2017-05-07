@@ -5,7 +5,7 @@ Feature: Volley API
     And I have an authenticated JSON API request
 
   Scenario: Retrieve a Volley
-    When I send a GET request to "http://0.0.0.0:3000/api/v1/sieges/{siege_id}/volleys/{id}"
+    When I send a GET request to "http://0.0.0.0:3000/api/v1/sieges/{siege_id}/volleys/{volley_id}"
     Then the response status should be "200"
 
   Scenario: Get all Volleys
@@ -13,7 +13,7 @@ Feature: Volley API
     Then the response status should be "200"
 
   Scenario: Delete a Volley
-    When I send a DELETE request to "http://0.0.0.0:3000/api/v1/sieges/{siege_id}/volleys/{id}"
+    When I send a DELETE request to "http://0.0.0.0:3000/api/v1/sieges/{siege_id}/volleys/{volley_id}"
     Then the response status should be "200"
 
   Scenario: Update a Volley
@@ -23,5 +23,5 @@ Feature: Volley API
       "volley": { "name": "bob" }
     }
     """
-    When I send a PATCH request to "http://0.0.0.0:3000/api/v1/sieges/{siege_id}/volleys/{id}"
+    When I send a PATCH request to "http://0.0.0.0:3000/api/v1/sieges/{siege_id}/volleys/{volley_id}"
     Then the response status should be "200"
