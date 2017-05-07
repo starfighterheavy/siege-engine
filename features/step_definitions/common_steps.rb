@@ -24,7 +24,6 @@ end
 
 Given('I have a Volley created') do
   steps %Q{
-    Given I have a Siege created
     Given I have an authenticated JSON API request
     When I set JSON request body to:
     """
@@ -41,7 +40,6 @@ end
 
 Given('I have a Report created') do
   steps %Q{
-    Given I have a Volley created
     Given I have an authenticated JSON API request
     When I set JSON request body to:
     """
@@ -60,7 +58,6 @@ end
 
 Given('I have an Attacker created') do
   steps %Q{
-    Given I have a Siege created
     Given I have an authenticated JSON API request
     When I set JSON request body to:
     """
@@ -84,7 +81,6 @@ end
 
 Given('I have a Target created') do
   steps %Q{
-    Given I have an Attacker created
     Given I have an authenticated JSON API request
     When I set JSON request body to:
     """

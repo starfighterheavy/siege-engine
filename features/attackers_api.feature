@@ -2,6 +2,7 @@
 Feature: Attackers API
 
   Background:
+    Given I have a Siege created
     Given I have an Attacker created
     Given I have an authenticated JSON API request
 

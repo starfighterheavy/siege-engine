@@ -2,6 +2,7 @@
 Feature: Results API
 
   Background:
+    Given I have a Siege created
     Given I have a Volley created
     And I have an authenticated JSON API request
 

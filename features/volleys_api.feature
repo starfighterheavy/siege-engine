@@ -1,6 +1,7 @@
 # TODO - Expand checks of index count, show values, update values and delete presence check
 Feature: Volley API
   Background:
+    Given I have a Siege created
     Given I have a Volley created
     And I have an authenticated JSON API request
 
