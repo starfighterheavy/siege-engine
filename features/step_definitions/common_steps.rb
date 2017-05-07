@@ -7,7 +7,7 @@ Given(/^I have an authenticated JSON API request$/) do
 end
 
 Given(/^I have a Siege created$/) do
-  %Q{
+  steps %Q{
     Given I have an authenticated JSON API request
     When I set JSON request body to:
     """
@@ -23,7 +23,7 @@ Given(/^I have a Siege created$/) do
 end
 
 Given(/^I have a Volley created$/) do
-  %Q{
+  steps %Q{
     Given I have a Siege created
     Given I have an authenticated JSON API request
     When I set JSON request body to:
