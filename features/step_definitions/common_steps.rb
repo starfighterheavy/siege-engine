@@ -83,7 +83,7 @@ Given('I have an Attacker created') do
 end
 
 Given('I have a Target created') do
-  %Q{
+  steps %Q{
     Given I have an Attacker created
     Given I have an authenticated JSON API request
     When I set JSON request body to:
