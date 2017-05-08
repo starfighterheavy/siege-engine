@@ -2,7 +2,7 @@ Given('I have an authenticated JSON API request') do
   steps %Q{
     Given I send and accept JSON
     And I add Headers:
-      | Authorization | Basic MGMyYjczNzEtNTU4MC00YjIzLTlmN2MtNjZhZjA0ZjU3ODgwOmMyYmFiMzY4LWUxOGMtNDE4NC1hMjA4LWM4YTYxNzkwMDNkMg== |
+      | Authorization | #{auth_header} |
   }
 end
 

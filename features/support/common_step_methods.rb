@@ -1,3 +1,8 @@
+require 'base64'
+def auth_header
+  "Basic #{Base64.strict_encode64([ENV['SE_ACCESS_KEY_ID'], ':', ENV['SE_SECRET_ACCESS_KEY']].join)}"
+end
+
 def create_siege(name: 'teddy')
   steps %Q{
     Given I have an authenticated JSON API request
