@@ -3,7 +3,8 @@ Feature: Reports API
 
   Background:
     Given I have a Siege created
-    Given I have a volley created
+    Given I have a Volley created
+    Given I have a Report created
     And I have an authenticated JSON API request
 
   Scenario: Retrieve an Report
