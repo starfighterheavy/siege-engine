@@ -25,4 +25,4 @@
 nohup.out
 
 config/database.yml
-
+.env.*
