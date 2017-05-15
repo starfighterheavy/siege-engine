@@ -1,3 +1,6 @@
+require 'cucumber-api'
+require 'sidekiq'
+require 'sidekiq/testing'
 unless ENV['SIDEKIQ'] == 'false'
   Sidekiq::Worker.clear_all
 end
