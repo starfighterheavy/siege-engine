@@ -23,7 +23,7 @@ class Volley < ActiveRecord::Base
     update_attribute(:status, 'started')
   end
 
-  def strike_queue
+  def target_queue
     sum_priority = siege.targets.sum(:priority)
     queue = []
     siege
@@ -52,7 +52,7 @@ class Volley < ActiveRecord::Base
 
   private def start!
     Rails.logger.info "Starting Volley ##{id}"
-    StartVolleyWorker.perform_async(id)
+    StartVolleyWorker.call(volley_id: id)
   end
 
   private def pause!

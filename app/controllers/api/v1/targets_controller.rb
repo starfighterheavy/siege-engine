@@ -7,12 +7,12 @@ module Api
 
       private def resource_create_params
         params.require(:target)
-              .permit(:priority, :method, :url, :body, :content_type)
+              .permit(:priority, :method, :url, :body, :content_type, :authenticated)
               .merge(siege_id: @siege.id)
       end
 
       private def resource_update_permitted_params
-        [:priority, :method, :url, :body, :content_type]
+        [:priority, :method, :url, :body, :content_type, :authenticated]
       end
 
       private def authorize_attacker

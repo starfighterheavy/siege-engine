@@ -10,7 +10,8 @@ class Target < ActiveRecord::Base
       method: method,
       url: url,
       body: body,
-      content_type: content_type
+      content_type: content_type,
+      authenticated: authenticated
     }
   end
 end

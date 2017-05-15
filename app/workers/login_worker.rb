@@ -1,10 +1,8 @@
 class LoginWorker < BaseWorker
-  def perform(attacker_id)
-    @attacker_id = attacker_id
-    uri = URI.parse(attacker.create_session_url)
+  def run
     response = Net::HTTP.post_form(uri, login_params)
     cookies = parse_cookies(response)
-    attacker.update_attribute(:cookies, cookies)
+    attacker.update_attribute(:cookie, cookies)
     ensure
       unlock_attacker
   end
@@ -18,8 +16,12 @@ class LoginWorker < BaseWorker
     end
   end
 
+  def uri
+    @uri ||= URI.parse(attacker.create_session_url)
+  end
+
   def attacker
-    @attacker ||= Attacker.find(@attacker_id)
+    @attacker ||= Attacker.find(opts[:attacker_id])
   end
 
   def parse_cookies(resp)

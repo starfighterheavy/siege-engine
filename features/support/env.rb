@@ -1,8 +1,6 @@
-require 'cucumber-api'
-require 'sidekiq'
-require 'sidekiq/testing'
-
-Sidekiq::Worker.clear_all
+unless ENV['SIDEKIQ'] == 'false'
+  Sidekiq::Worker.clear_all
+end
 
 require 'dotenv'
 Dotenv.load('.env.development', '.env')

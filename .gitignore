@@ -23,3 +23,6 @@
 .byebug_history
 
 nohup.out
+
+config/database.yml
+
