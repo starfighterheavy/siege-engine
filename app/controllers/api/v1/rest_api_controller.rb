@@ -7,7 +7,7 @@ module Api
     end
 
       def index
-        render json: resource_collection.map(&:to_h)
+        render json: { resource_name.pluralize => resource_collection.map(&:to_h), meta: index_meta }
       end
 
       def show
@@ -38,6 +38,16 @@ module Api
       end
 
       private
+
+        def index_meta
+          {
+            pagination: {
+              per_page: resource_collection.limit_value,
+              total_pages: resource_collection.total_pages,
+              total_objects: resource_collection.count,
+            }
+          }
+        end
 
         def resource_required_param
           resource_name.to_sym
@@ -74,7 +84,9 @@ module Api
         end
 
         def resource_collection
-          resource_class.where("#{resource_owner_reference} = ?", resource_owner.id)
+          resource_class
+            .where("#{resource_owner_reference} = ?", resource_owner.id)
+            .page(params[:page])
         end
 
         def self.resource_owner_name(name = nil)

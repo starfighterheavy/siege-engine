@@ -14,6 +14,8 @@ gem 'redis', '~> 3.0'
 gem 'sidekiq'
 gem 'pg'
 gem 'dotenv'
+gem 'pager_api'
+gem 'kaminari'
 
 group :test do
   gem 'cucumber-api'
