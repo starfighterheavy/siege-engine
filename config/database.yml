@@ -1,10 +1,10 @@
 default: &default
-  adapter: postgresql
+  adapter: <%= ENV.fetch('DB_ADAPTER') { 'postgresql' } %>
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  timeout: 5000
-  host: localhost
-  username: jc
-  password: 
+  timeout: <%= ENV.fetch('PG_TIMEOUT') { 5000 } %>
+  host: <%= ENV.fetch('PG_HOST') { 'localhost' } %>
+  username: <%= ENV.fetch('PG_USERNAME') { 'pguser' } %>
+  password: <%= ENV.fetch('PG_PASSWORD') { 'password' } %>
 
 development:
   <<: *default
