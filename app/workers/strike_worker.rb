@@ -48,18 +48,23 @@ class StrikeWorker < BaseWorker
   end
 
   def cookie
-    attacker.cookie || Session.login(attacker)
+    attacker.cookie || Session.login(attacker, logger)
   end
 
   class Session
     include CrsfHelper
 
-    def self.login(attacker)
-      new(attacker).login
+    def self.login(attacker, logger)
+      new(attacker, logger).login
     end
 
-    def initialize(attacker)
+    def initialize(attacker, logger)
       @attacker = attacker
+      @logger = logger
+    end
+
+    def logger
+      @logger
     end
 
     def attacker
@@ -67,6 +72,7 @@ class StrikeWorker < BaseWorker
     end
 
     def login
+      logger.info "Starting fresh login for Attacker ##{attacker.id}"
       cookie, token = get_fresh_cookie_and_token(attacker.new_session_url)
       uri = URI.parse(attacker.create_session_url)
       http = Net::HTTP.start(uri.host, uri.port)
@@ -75,6 +81,7 @@ class StrikeWorker < BaseWorker
       req.set_form_data(login_params.merge(authenticity_token: token))
       response = http.request(req)
       http.finish
+      logger.info "Successful fresh login for Attacker ##{attacker.id}"
       parse_cookie(response)
     end
 
