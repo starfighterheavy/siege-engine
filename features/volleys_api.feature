@@ -26,3 +26,15 @@ Feature: Volley API
     """
     When I send a PATCH request to "http://0.0.0.0:3000/api/v1/sieges/{siege_id}/volleys/{volley_id}"
     Then the response status should be "200"
+
+  Scenario: Starting a Volley
+    When I send a PATCH request to "http://0.0.0.0:3000/api/v1/sieges/{siege_id}/volleys/{volley_id}/start"
+    Then the response status should be "200"
+
+  Scenario: Canceling a Volley
+    When I send a PATCH request to "http://0.0.0.0:3000/api/v1/sieges/{siege_id}/volleys/{volley_id}/cancel"
+    Then the response status should be "200"
+
+  Scenario: Restarting a Volley
+    When I send a PATCH request to "http://0.0.0.0:3000/api/v1/sieges/{siege_id}/volleys/{volley_id}/restart"
+    Then the response status should be "200"
