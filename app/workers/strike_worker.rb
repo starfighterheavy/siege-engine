@@ -1,17 +1,38 @@
+require 'crsf_helper'
+
 class StrikeWorker < BaseWorker
+  include CrsfHelper
+
   MAX_LOGIN_DELAYS = 5
   LOGIN_DELAY = 5
 
   def run
     logger.info "Performing strike on ##{target.id} - #{target.url}"
-    start_tracking!
-    @response = Net::HTTP.get_response(uri, request_options)
-    end_tracking!
-    logger.info "Strike on ##{target.id} complete in #{elapsed_time} ms"
+    make_request
+    logger.info "Strike on ##{target.id} completed #{@result.code} in #{@result.time} ms"
   end
 
-  def elapsed_time
-    (@end_time - @start_time) * 1000
+  def make_request
+    attacker.with_lock do
+      http = Net::HTTP.start(uri.host, uri.port)
+      start_time = Time.now
+      response = http.request request
+      http.finish
+      elapsed_time = (Time.now - start_time) * 1000
+      attacker.cookie = parse_cookie(response)
+      attacker.save
+      @result = Result.create!(target: target, code: response.code, time: elapsed_time, volley: volley)
+    end
+  end
+
+  def request
+    req = Net::HTTP::Get.new(uri)
+    req['Cookie'] = cookie if target.authenticated
+    req
+  end
+
+  def uri
+    URI.parse(target.url)
   end
 
   def target
@@ -23,69 +44,45 @@ class StrikeWorker < BaseWorker
   end
 
   def volley
-    @volley ||= Volley.find(params[:volley_id])
+    @volley ||= Volley.find(opts[:volley_id])
   end
 
   def cookie
-    attacker.cookie || begin
-      if attacker.locked_at?
-        wait_for_login
-      else
-        login
-      end
-      attacker.reload
-      attacker.cookie
+    attacker.cookie || Session.login(attacker)
+  end
+
+  class Session
+    include CrsfHelper
+
+    def self.login(attacker)
+      new(attacker).login
+    end
+
+    def initialize(attacker)
+      @attacker = attacker
+    end
+
+    def attacker
+      @attacker
+    end
+
+    def login
+      cookie, token = get_fresh_cookie_and_token(attacker.new_session_url)
+      uri = URI.parse(attacker.create_session_url)
+      http = Net::HTTP.start(uri.host, uri.port)
+      req = Net::HTTP::Post.new(uri)
+      req['Cookie'] = cookie
+      req.set_form_data(login_params.merge(authenticity_token: token))
+      response = http.request(req)
+      http.finish
+      parse_cookie(response)
+    end
+
+    def login_params
+      {
+        attacker.username_field => attacker.username,
+        attacker.password_field => attacker.password
+      }
     end
   end
-
-  def wait_for_login
-    login_delays = 0
-    while attacker.locked_at?
-      raise LoginDelaysExceeded if login_delays > MAX_LOGIN_DELAYS
-      sleep LOGIN_DELAY
-      login_delays += 1
-    end
-  end
-
-  def login
-    lock_attacker
-    LoginWorker.call(attacker_id: attacker.id, run_sync: true)
-    attacker.reload
-  end
-
-  def uri
-    @uri ||= URI.parse(target.url)
-  end
-
-  def response
-    @response
-  end
-
-  def request_options
-    options = { 'port' => '4000' }
-    options = { :port => '4000' }
-    options = { 'Port' => '4000' }
-    options['Cookie'] = cookie if target.authenticated
-    options
-  end
-
-  private def lock_attacker
-    attacker.lock!
-    attacker.locked_at = Time.now
-    attacker.save!
-  end
-
-  private def register_result!
-    Result.create!(target_id: target.id, code: response.code, time: elapsed_time, volley: volley.id)
-  end
-
-  private def start_tracking!
-    @start_time = Time.now
-  end
-
-  private def end_tracking!
-    @end_time = Time.now
-  end
-
-  class LoginDelaysExceeded < StandardError; end
 end

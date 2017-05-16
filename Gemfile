@@ -24,6 +24,7 @@ end
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'capybara', '~> 2.13.0'
+  gem 'pry'
 end
 
 group :development do
