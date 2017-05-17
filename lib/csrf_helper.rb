@@ -1,9 +1,10 @@
-module CrsfHelper
+module CsrfHelper
   def get_fresh_cookie_and_token(url)
     uri = URI.parse(url)
     http = Net::HTTP.start(uri.host, uri.port)
     req = Net::HTTP::Get.new(uri)
     response = http.request req
+    check_response_code(response)
     http.finish
     return parse_cookie(response), parse_crsf_token(response)
   end
@@ -22,5 +23,16 @@ module CrsfHelper
       .xpath('//head/meta')
       .find{ |m| m.values[0] == 'csrf-token' }
       .values[1]
-   end
+  end
+
+  def check_response_code(response)
+    raise FailedRequest, response if response.code.to_i >= 400
+  end
+
+  class FailedRequest < StandardError
+    def initialize(response)
+      msg = "Failed with code #{response.code}"
+      super(msg)
+    end
+  end
 end

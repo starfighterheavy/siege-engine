@@ -1,7 +1,7 @@
-require 'crsf_helper'
+require 'csrf_helper'
 
 class StrikeWorker < BaseWorker
-  include CrsfHelper
+  include CsrfHelper
 
   MAX_LOGIN_DELAYS = 5
   LOGIN_DELAY = 5
@@ -52,7 +52,7 @@ class StrikeWorker < BaseWorker
   end
 
   class Session
-    include CrsfHelper
+    include CsrfHelper
 
     def self.login(attacker, logger)
       new(attacker, logger).login
@@ -74,15 +74,23 @@ class StrikeWorker < BaseWorker
     def login
       logger.info "Starting fresh login for Attacker ##{attacker.id}"
       cookie, token = get_fresh_cookie_and_token(attacker.new_session_url)
-      uri = URI.parse(attacker.create_session_url)
       http = Net::HTTP.start(uri.host, uri.port)
+      response = http.request(login_request(cookie, token))
+      http.finish
+      check_response_code(response)
+      logger.info "Successful fresh login for Attacker ##{attacker.id}"
+      parse_cookie(response)
+    end
+
+    def uri
+      URI.parse(attacker.create_session_url)
+    end
+
+    def login_request(cookie, token)
       req = Net::HTTP::Post.new(uri)
       req['Cookie'] = cookie
       req.set_form_data(login_params.merge(authenticity_token: token))
-      response = http.request(req)
-      http.finish
-      logger.info "Successful fresh login for Attacker ##{attacker.id}"
-      parse_cookie(response)
+      req
     end
 
     def login_params

@@ -1,13 +1,8 @@
 class StartVolleyWorker < BaseWorker
   def run
     update_status('launching')
-    #begin
-      launch!
-      update_status('launched')
-    #rescue Exception => e
-      #logger.error e.to_s
-      update_status('failed')
-    #end
+    launch!
+    update_status('launched')
   end
 
   def volley

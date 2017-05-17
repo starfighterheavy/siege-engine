@@ -23,6 +23,10 @@ class Volley < ActiveRecord::Base
     update_attribute(:status, 'started')
   end
 
+  def done!
+    update_attribute(:status, 'done')
+  end
+
   def target_queue
     sum_priority = siege.targets.sum(:priority)
     queue = []

@@ -18,3 +18,8 @@ def create_siege(name: 'teddy')
     And I grab "$..id" as "siege_id"
   }
 end
+
+def previous_step_time
+  return nil unless @previous_step_time
+  (@current_step_time - @previous_step_time) * 1000
+end
