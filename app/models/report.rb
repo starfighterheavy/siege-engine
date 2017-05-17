@@ -4,7 +4,7 @@ class Report < ActiveRecord::Base
   belongs_to :volley
 
   after_commit on: [:create] do
-    ReportWorker.perform_async(id)
+    ReportWorker.call(report_id: id)
   end
 
   def to_h
