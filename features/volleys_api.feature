@@ -19,6 +19,8 @@ Feature: Volley API
   Scenario: Delete a Volley
     When I send a DELETE request to "http://0.0.0.0:3000/api/v1/sieges/{siege_id}/volleys/{volley_id}"
     Then the response status should be "200"
+    When I send a GET request to "http://0.0.0.0:3000/api/v1/sieges/{siege_id}/volleys/{volley_id}"
+    Then the response status should be "404"
 
   Scenario: Update a Volley
     When I set JSON request body to:
