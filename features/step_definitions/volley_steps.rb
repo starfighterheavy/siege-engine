@@ -1,10 +1,10 @@
-Given(/^I have a Volley created with (\d+) strikes$/) do |strikes|
+Given(/^I have a Volley with: '(.*)'$/) do |volley|
   steps %Q{
     Given I have an authenticated JSON API request
     When I set JSON request body to:
     """
     {
-      "volley": { "name": "joe", "strikes": #{strikes} }
+      "volley": #{volley}
     }
     """
     When I send a POST request to "http://0.0.0.0:3000/api/v1/sieges/{siege_id}/volleys"
@@ -14,9 +14,9 @@ Given(/^I have a Volley created with (\d+) strikes$/) do |strikes|
   }
 end
 
-Given('I have a Volley created') do
+Given('I have a Volley') do
   steps %Q{
-    Given I have a Volley created with 100 strikes
+    Given I have a Volley with: '{ "name": "joe", "strikes": 100 }'
   }
 end
 
