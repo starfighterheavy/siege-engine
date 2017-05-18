@@ -2,9 +2,9 @@
 Feature: Reports API
 
   Background:
-    Given I have a Siege created
-    Given I have a Volley created
-    Given I have a Report created
+    Given I have a Siege
+    Given I have a Volley
+    Given I have a Report
     And I have an authenticated JSON API request
 
   Scenario: Retrieve an Report

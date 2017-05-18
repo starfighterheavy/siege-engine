@@ -2,7 +2,7 @@
 Feature: Siege API
 
   Background:
-    Given I have a Siege created
+    Given I have a Siege
     And I have an authenticated JSON API request
 
   Scenario: Retrieve a Siege

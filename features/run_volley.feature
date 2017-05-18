@@ -1,16 +1,16 @@
 # Note: 14 strikes was calculated to evenly distribute the priorities used below
 Feature: Run Volley
   Background:
-    Given I have a Siege created
-    Given I have a Volley created with 14 strikes
+    Given I have a Siege
+    Given I have a Volley with: '{ "name": "joe", "strikes": 14 }'
     And I have an authenticated JSON API request
 
   Scenario: Retrieve a Volley
-    Given I have an Attacker created
+    Given I have an Attacker
     And I have an authenticated Target for that Attacker with priority of 400 and url of 'http://0.0.0.0:4000/home/1'
     And I have an authenticated Target for that Attacker with priority of 200 and url of 'http://0.0.0.0:4000/home/2'
     And I have an unauthenticated Target for that Attacker with priority of 100 and url of 'http://0.0.0.0:4000/public/1'
-    And I have another Attacker created
+    And I have another Attacker
     And I have an authenticated Target for that Attacker with priority of 400 and url of 'http://0.0.0.0:4000/home/3'
     And I have an authenticated Target for that Attacker with priority of 200 and url of 'http://0.0.0.0:4000/home/4'
     And I have an unauthenticated Target for that Attacker with priority of 100 and url of 'http://0.0.0.0:4000/public/2'

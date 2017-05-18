@@ -1,3 +1,3 @@
-Given('I have a Siege created') do
+Given('I have a Siege') do
   create_siege(name: 'teddy')
 end

@@ -2,8 +2,8 @@
 Feature: Results API
 
   Background:
-    Given I have a Siege created
-    Given I have a Volley created
+    Given I have a Siege
+    Given I have a Volley
     And I have an authenticated JSON API request
 
   Scenario: Retrieve all Results

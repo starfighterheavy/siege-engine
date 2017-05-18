@@ -19,7 +19,7 @@ Given(/^I have an (.*) Target for that Attacker with priority of (\d+) and url o
   }
 end
 
-Given('I have a Target created') do
+Given('I have a Target') do
   steps %Q{
     Given I have an unauthenticated Target for that Attacker with priority of 100 and url of 'http://0.0.0.0:3000/api/v1/attackers/{attacker_id}/targets'
   }
