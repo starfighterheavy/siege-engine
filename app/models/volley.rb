@@ -5,6 +5,8 @@ class Volley < ActiveRecord::Base
   has_many :results, dependent: :destroy
   has_many :reports, dependent: :destroy
 
+  max_paginates_per 10
+
   after_update :status_change_listener, if: :saved_change_to_status?
 
   def to_h
