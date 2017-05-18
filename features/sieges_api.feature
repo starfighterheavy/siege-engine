@@ -3,7 +3,6 @@ Feature: Siege API
 
   Background:
     Given I have a Siege
-    And I have an authenticated JSON API request
 
   Scenario: Retrieve a Siege
     When I send a GET request to "http://0.0.0.0:3000/api/v1/sieges/{siege_id}"

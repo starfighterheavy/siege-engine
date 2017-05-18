@@ -4,7 +4,6 @@ Feature: Attackers API
   Background:
     Given I have a Siege
     Given I have an Attacker
-    Given I have an authenticated JSON API request
 
   Scenario: Retrieve an Attacker
     When I send a GET request to "http://0.0.0.0:3000/api/v1/sieges/{siege_id}/attackers/{attacker_id}"

@@ -1,7 +1,6 @@
 Given(/^I have an (.*) Target for that Attacker with priority of (\d+) and url of '(.*)'$/) do |auth, priority, url|
   auth = auth == 'authenticated'
   steps %Q{
-    Given I have an authenticated JSON API request
     When I set JSON request body to:
     """
     {

@@ -1,11 +1,3 @@
-Given('I have an authenticated JSON API request') do
-  steps %Q{
-    Given I send and accept JSON
-    And I add Headers:
-      | Authorization | #{auth_header} |
-  }
-end
-
 When('if I wait for volley to complete') do
   seconds = ENV['WEBMOCK'] == 'false' ? 5 : 0.25
   sleep seconds

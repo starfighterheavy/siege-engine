@@ -1,6 +1,5 @@
 Given('I have a Report') do
   steps %Q{
-    Given I have an authenticated JSON API request
     When I set JSON request body to:
     """
     {

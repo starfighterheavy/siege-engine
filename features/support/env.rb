@@ -1,6 +1,8 @@
 require 'cucumber-api'
 require 'sidekiq'
 require 'sidekiq/testing'
+require 'rspec/expectations'
+
 unless ENV['SIDEKIQ'] == 'false'
   Sidekiq::Worker.clear_all
 end

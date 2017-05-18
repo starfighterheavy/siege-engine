@@ -1,6 +1,5 @@
 Given(/I have an(other)? Attacker/) do |_other|
   steps %Q{
-    Given I have an authenticated JSON API request
     When I set JSON request body to:
     """
     {

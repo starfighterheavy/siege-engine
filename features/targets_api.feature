@@ -5,7 +5,6 @@ Feature: Targets API
     Given I have a Siege
     Given I have an Attacker
     Given I have a Target
-    Given I have an authenticated JSON API request
 
   Scenario: Retrieve an Target
     When I send a GET request to "http://0.0.0.0:3000/api/v1/attackers/{attacker_id}/targets/{target_id}"

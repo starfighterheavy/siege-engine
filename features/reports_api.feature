@@ -5,7 +5,6 @@ Feature: Reports API
     Given I have a Siege
     Given I have a Volley
     Given I have a Report
-    And I have an authenticated JSON API request
 
   Scenario: Retrieve an Report
     When I send a GET request to "http://0.0.0.0:3000/api/v1/volleys/{volley_id}/reports/{report_id}"
