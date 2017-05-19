@@ -14,6 +14,7 @@ gem 'redis', '~> 3.0'
 gem 'sidekiq'
 gem 'pg'
 gem 'dotenv'
+gem 'dotenv-rails'
 gem 'pager_api'
 gem 'kaminari'
 
