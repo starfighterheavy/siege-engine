@@ -19,7 +19,7 @@ gem 'pager_api'
 gem 'kaminari'
 
 group :test do
-  gem 'cucumber-api', github: 'jskirst/cucumber-api', branch: 'default-headers'
+  gem 'cucumber-api', github: 'jskirst/cucumber-api', branch: 'default-headers', require: false
 end
 
 group :development, :test do
