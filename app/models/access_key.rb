@@ -2,6 +2,7 @@ require 'securerandom'
 
 class AccessKey < ActiveRecord::Base
   attr_encrypted :secret_access_key, key: '1af6cae6474c75352a517f41032528d9efb6f70538090e3c4012a9bcba0784c8'
+  attribute :secret_access_key
 
   has_many :sieges
 
