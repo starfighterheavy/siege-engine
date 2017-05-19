@@ -18,12 +18,15 @@ gem 'dotenv-rails'
 gem 'pager_api'
 gem 'kaminari'
 
+group :test do
+  gem 'cucumber-api', github: 'jskirst/cucumber-api', branch: 'default-headers'
+end
+
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'pry'
   gem 'webmock'
   gem 'rspec'
-  gem 'cucumber-api', github: 'jskirst/cucumber-api', branch: 'default-headers'
 end
 
 group :development do
