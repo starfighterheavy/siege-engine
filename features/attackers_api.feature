@@ -16,6 +16,8 @@ Feature: Attackers API
   Scenario: Delete a Attacker
     When I send a DELETE request to "http://0.0.0.0:3000/api/v1/sieges/{siege_id}/attackers/{attacker_id}"
     Then the response status should be "200"
+    When I send a GET request to "http://0.0.0.0:3000/api/v1/sieges/{siege_id}/attackers/{attacker_id}"
+    Then the response status should be "404"
 
   Scenario: Update a Attacker
     When I set JSON request body to:
