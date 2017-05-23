@@ -17,6 +17,8 @@ Feature: Targets API
   Scenario: Delete a Target
     When I send a DELETE request to "http://0.0.0.0:3000/api/v1/attackers/{attacker_id}/targets/{target_id}"
     Then the response status should be "200"
+    When I send a DELETE request to "http://0.0.0.0:3000/api/v1/attackers/{attacker_id}/targets/{target_id}"
+    Then the response status should be "404"
 
   Scenario: Update a Target
     When I set JSON request body to:
