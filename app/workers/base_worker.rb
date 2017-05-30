@@ -1,5 +1,6 @@
 class BaseWorker
   include Sidekiq::Worker
+  sidekiq_options :retry => false
 
   def self.call(opts)
     if sidekiq_enabled? && opts[:run_sync] != false
