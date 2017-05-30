@@ -2,6 +2,20 @@
 
 Siege Engine is a performance testing tool based on Sidekiq.
 
+# How to test
+
+To run tests in isolation without actually hitting a target server or using Sidekiq.
+
+1. bundle exec cucumber
+
+To Run tests with Sidekiq,
+
+1. From siege-engine: `WEBMOCK=false SIDEKIQ=true rails s -p 3000 -b 0.0.0.0`
+1. From siege-engine: `bundle exec rake sidekiq:clear`
+1. From siege-engine: `sidekiq`
+1. From siege-engine-test: `rails s -b 0.0.0.0 -p 4000`
+1. From siege-engine: `bundle exec cucumber features/run_volley.feature`
+
 # Getting started
 
 # How to contribute
