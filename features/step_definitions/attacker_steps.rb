@@ -1,10 +1,17 @@
-Given(/I have an(other)? Attacker/) do |_other|
+Given(/^I have an(other)? Attacker$/) do |_other|
+  #raise 'here'
+  steps %Q{
+    Given I have an Attacker with email of 'jskirst@gmail.com'
+  }
+end
+
+Given(/^I have an Attacker with email of '(.*)'$/) do |email|
   steps %Q{
     When I set JSON request body to:
     """
     {
       "attacker": {
-        "username": "jskirst@gmail.com",
+        "username": "#{email}",
         "password": "Password1",
         "password_field": "user[password]",
         "username_field": "user[email]",

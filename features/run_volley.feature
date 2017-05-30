@@ -5,11 +5,11 @@ Feature: Run Volley
     Given I have a Volley with: '{ "name": "joe", "strikes": 14 }'
 
   Scenario: Retrieve a Volley
-    Given I have an Attacker
+    Given I have an Attacker with email of 'attacker1@example.com'
     And I have an authenticated Target for that Attacker with priority of 400 and url of 'http://0.0.0.0:4000/home/1'
     And I have an authenticated Target for that Attacker with priority of 200 and url of 'http://0.0.0.0:4000/home/2'
     And I have an unauthenticated Target for that Attacker with priority of 100 and url of 'http://0.0.0.0:4000/public/1'
-    And I have another Attacker
+    And I have an Attacker with email of 'attacker2@example.com'
     And I have an authenticated Target for that Attacker with priority of 400 and url of 'http://0.0.0.0:4000/home/3'
     And I have an authenticated Target for that Attacker with priority of 200 and url of 'http://0.0.0.0:4000/home/4'
     And I have an unauthenticated Target for that Attacker with priority of 100 and url of 'http://0.0.0.0:4000/public/2'
