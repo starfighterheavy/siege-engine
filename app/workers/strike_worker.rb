@@ -19,10 +19,11 @@ class StrikeWorker < BaseWorker
       response = http.request request
       http.finish
       elapsed_time = (Time.now - start_time) * 1000
-      attacker.cookie = parse_cookie(response)
+      attacker.cookie = parse_cookie(response) if target.authenticated
       attacker.save
       @result = Result.create!(target: target, code: response.code, time: elapsed_time, volley: volley)
     end
+    sleep volley.delay
   end
 
   def request

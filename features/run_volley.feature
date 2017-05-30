@@ -2,7 +2,7 @@
 Feature: Run Volley
   Background:
     Given I have a Siege
-    Given I have a Volley with: '{ "name": "joe", "strikes": 14 }'
+    Given I have a Volley with: '{ "name": "joe", "strikes": 14, "delay": 1 }'
 
   Scenario: Retrieve a Volley
     Given I have an Attacker with email of 'attacker1@example.com'

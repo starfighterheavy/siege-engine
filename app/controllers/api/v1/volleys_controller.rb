@@ -38,7 +38,7 @@ module Api
       end
 
       private def resource_create_permitted_params
-        [:name, :strikes]
+        [:name, :strikes, :delay]
       end
       alias :resource_update_permitted_params :resource_create_permitted_params
     end
