@@ -2,6 +2,20 @@
 
 Siege Engine is a performance testing tool based on Sidekiq.
 
+# Getting started
+
+# How to contribute
+
+1. Fork the project & clone locally.
+1. Create an upstream remote and sync your local copy before you branch.
+1. Branch for each separate piece of work.
+1. Do the work, write good commit messages, and read the CONTRIBUTING file if there is one.
+1. Run `bundle exec cucumber` to execute all tests.
+1. Push to your origin repository.
+1. Create a new PR in GitHub.
+1. Respond to any code review feedback.
+
+
 ## License
  
 The MIT License (MIT)
