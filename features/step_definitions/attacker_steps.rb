@@ -15,8 +15,8 @@ Given(/^I have an Attacker with email of '(.*)'$/) do |email|
         "password": "Password1",
         "password_field": "user[password]",
         "username_field": "user[email]",
-        "new_session_url": "http://127.0.0.1:3000/users/sign_in",
-        "create_session_url": "http://127.0.0.1:3000/users/sign_in"
+        "new_session_url": "http://0.0.0.0:4000/users/sign_in",
+        "create_session_url": "http://0.0.0.0:4000/users/sign_in"
       }
     }
     """
