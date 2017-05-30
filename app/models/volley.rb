@@ -58,7 +58,7 @@ class Volley < ActiveRecord::Base
 
   private def start!
     Rails.logger.info "Starting Volley ##{id}"
-    StartVolleyWorker.call(volley_id: id)
+    StartVolleyWorker.call("volley_id" => id)
   end
 
   private def pause!

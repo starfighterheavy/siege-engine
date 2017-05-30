@@ -37,7 +37,7 @@ class StrikeWorker < BaseWorker
   end
 
   def target
-    @target ||= Target.find(opts[:target_id])
+    @target ||= Target.find(opts['target_id'])
   end
 
   def attacker
@@ -45,7 +45,7 @@ class StrikeWorker < BaseWorker
   end
 
   def volley
-    @volley ||= Volley.find(opts[:volley_id])
+    @volley ||= Volley.find(opts['volley_id'])
   end
 
   def cookie
