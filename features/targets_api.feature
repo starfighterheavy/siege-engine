@@ -7,17 +7,17 @@ Feature: Targets API
     Given I have a Target
 
   Scenario: Retrieve an Target
-    When I send a GET request to "http://0.0.0.0:3000/api/v1/attackers/{attacker_id}/targets/{target_id}"
+    When I send a GET request to "{se_host}/api/v1/attackers/{attacker_id}/targets/{target_id}"
     Then the response status should be "200"
 
   Scenario: Get all Targets
-    When I send a GET request to "http://0.0.0.0:3000/api/v1/attackers/{attacker_id}/targets"
+    When I send a GET request to "{se_host}/api/v1/attackers/{attacker_id}/targets"
     Then the response status should be "200"
 
   Scenario: Delete a Target
-    When I send a DELETE request to "http://0.0.0.0:3000/api/v1/attackers/{attacker_id}/targets/{target_id}"
+    When I send a DELETE request to "{se_host}/api/v1/attackers/{attacker_id}/targets/{target_id}"
     Then the response status should be "200"
-    When I send a DELETE request to "http://0.0.0.0:3000/api/v1/attackers/{attacker_id}/targets/{target_id}"
+    When I send a DELETE request to "{se_host}/api/v1/attackers/{attacker_id}/targets/{target_id}"
     Then the response status should be "404"
 
   Scenario: Update a Target
@@ -27,5 +27,5 @@ Feature: Targets API
       "target": { "url": "bob" }
     }
     """
-    When I send a PATCH request to "http://0.0.0.0:3000/api/v1/attackers/{attacker_id}/targets/{target_id}"
+    When I send a PATCH request to "{se_host}/api/v1/attackers/{attacker_id}/targets/{target_id}"
     Then the response status should be "200"

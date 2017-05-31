@@ -6,5 +6,5 @@ Feature: Results API
     Given I have a Volley
 
   Scenario: Retrieve all Results
-    When I send a GET request to "http://0.0.0.0:3000/api/v1/volleys/{volley_id}/results"
+    When I send a GET request to "{se_host}/api/v1/volleys/{volley_id}/results"
     Then the response status should be "200"

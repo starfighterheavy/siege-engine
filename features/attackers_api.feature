@@ -6,17 +6,17 @@ Feature: Attackers API
     Given I have an Attacker
 
   Scenario: Retrieve an Attacker
-    When I send a GET request to "http://0.0.0.0:3000/api/v1/sieges/{siege_id}/attackers/{attacker_id}"
+    When I send a GET request to "{se_host}/api/v1/sieges/{siege_id}/attackers/{attacker_id}"
     Then the response status should be "200"
 
   Scenario: Get all Attackers
-    When I send a GET request to "http://0.0.0.0:3000/api/v1/sieges/{siege_id}/attackers"
+    When I send a GET request to "{se_host}/api/v1/sieges/{siege_id}/attackers"
     Then the response status should be "200"
 
   Scenario: Delete a Attacker
-    When I send a DELETE request to "http://0.0.0.0:3000/api/v1/sieges/{siege_id}/attackers/{attacker_id}"
+    When I send a DELETE request to "{se_host}/api/v1/sieges/{siege_id}/attackers/{attacker_id}"
     Then the response status should be "200"
-    When I send a GET request to "http://0.0.0.0:3000/api/v1/sieges/{siege_id}/attackers/{attacker_id}"
+    When I send a GET request to "{se_host}/api/v1/sieges/{siege_id}/attackers/{attacker_id}"
     Then the response status should be "404"
 
   Scenario: Update a Attacker
@@ -26,5 +26,5 @@ Feature: Attackers API
       "attacker": { "username": "bob" }
     }
     """
-    When I send a PATCH request to "http://0.0.0.0:3000/api/v1/sieges/{siege_id}/attackers/{attacker_id}"
+    When I send a PATCH request to "{se_host}/api/v1/sieges/{siege_id}/attackers/{attacker_id}"
     Then the response status should be "200"

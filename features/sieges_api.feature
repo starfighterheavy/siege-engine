@@ -5,15 +5,15 @@ Feature: Siege API
     Given I have a Siege
 
   Scenario: Retrieve a Siege
-    When I send a GET request to "http://0.0.0.0:3000/api/v1/sieges/{siege_id}"
+    When I send a GET request to "{se_host}/api/v1/sieges/{siege_id}"
     Then the response status should be "200"
 
   Scenario: Get all Sieges
-    When I send a GET request to "http://0.0.0.0:3000/api/v1/sieges"
+    When I send a GET request to "{se_host}/api/v1/sieges"
     Then the response status should be "200"
 
   Scenario: Delete a Siege
-    When I send a DELETE request to "http://0.0.0.0:3000/api/v1/sieges/{siege_id}"
+    When I send a DELETE request to "{se_host}/api/v1/sieges/{siege_id}"
     Then the response status should be "200"
 
   Scenario: Update a Siege
@@ -23,5 +23,5 @@ Feature: Siege API
       "siege": { "name": "bob" }
     }
     """
-    When I send a PATCH request to "http://0.0.0.0:3000/api/v1/sieges/{siege_id}"
+    When I send a PATCH request to "{se_host}/api/v1/sieges/{siege_id}"
     Then the response status should be "200"

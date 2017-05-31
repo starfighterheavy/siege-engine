@@ -11,7 +11,7 @@ Given(/^I have an (.*) Target for that Attacker with priority of (\d+) and url o
       }
     }
     """
-    When I send a POST request to "http://0.0.0.0:3000/api/v1/attackers/{attacker_id}/targets"
+    When I send a POST request to "{se_host}/api/v1/attackers/{attacker_id}/targets"
     Then the response status should be "200"
     And the JSON response should have key "id"
     And I grab "$..id" as "target_id"
@@ -20,6 +20,6 @@ end
 
 Given('I have a Target') do
   steps %Q{
-    Given I have an unauthenticated Target for that Attacker with priority of 100 and url of 'http://0.0.0.0:3000/api/v1/attackers/{attacker_id}/targets'
+    Given I have an unauthenticated Target for that Attacker with priority of 100 and url of '{se_host}/api/v1/attackers/{attacker_id}/targets'
   }
 end

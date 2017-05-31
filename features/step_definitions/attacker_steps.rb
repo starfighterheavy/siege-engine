@@ -20,7 +20,7 @@ Given(/^I have an Attacker with email of '(.*)'$/) do |email|
       }
     }
     """
-    When I send a POST request to "http://0.0.0.0:3000/api/v1/sieges/{siege_id}/attackers"
+    When I send a POST request to "{se_host}/api/v1/sieges/{siege_id}/attackers"
     Then the response status should be "200"
     And the JSON response should have key "id"
     And I grab "$..id" as "attacker_id"
