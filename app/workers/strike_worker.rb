@@ -14,14 +14,18 @@ class StrikeWorker < BaseWorker
 
   def make_request
     attacker.with_lock do
-      http = Net::HTTP.start(uri.host, uri.port)
-      start_time = Time.now
-      response = http.request request
-      http.finish
-      elapsed_time = (Time.now - start_time) * 1000
-      attacker.cookie = parse_cookie(response) if target.authenticated
-      attacker.save
-      @result = Result.create!(target: target, code: response.code, time: elapsed_time, volley: volley)
+      begin
+        http = Net::HTTP.start(uri.host, uri.port)
+        start_time = Time.now
+        response = http.request request
+        http.finish
+        elapsed_time = (Time.now - start_time) * 1000
+        attacker.cookie = parse_cookie(response) if target.authenticated
+        attacker.save
+        @result = Result.create!(target: target, code: response.code, time: elapsed_time, volley: volley)
+      rescue Errno::ECONNREFUSED => e
+        create_connection_refused_result
+      end
     end
     sleep volley.delay
   end
@@ -50,6 +54,10 @@ class StrikeWorker < BaseWorker
 
   def cookie
     attacker.cookie || Session.login(attacker, logger)
+  end
+
+  private def create_connection_refused_result
+    @result = Result.create!(target: target, code: 999, time: nil, volley: volley)
   end
 
   class Session
