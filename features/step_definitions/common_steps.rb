@@ -9,7 +9,7 @@ Then(/^(\w+) should be an array with (\d+) element$/) do |var, size|
 end
 
 Then(/the JSON response should have (\d+) elements matching "(.*)"$/) do |count, json_path|
-  results = JsonPath.new(json_path).on(JSON.parse(@response.body))
+  results = JsonPath.new(resolve(json_path)).on(JSON.parse(@response.body))
   expect(results.count).to eq(count.to_i)
 end
 

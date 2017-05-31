@@ -5,7 +5,7 @@ Given(/^I have an (.*) Target for that Attacker with priority of (\d+) and url o
     """
     {
       "target": {
-        "url": "#{url}",
+        "url": "#{resolve(url)}",
         "priority": #{priority},
         "authenticated": #{auth}
       }
