@@ -15,7 +15,7 @@ class StrikeWorker < BaseWorker
   def make_request
     attacker.with_lock do
       begin
-        http = Net::HTTP.start(uri.host, uri.port)
+        http = net_http_start(uri)
         start_time = Time.now
         response = http.request request
         http.finish
@@ -23,8 +23,12 @@ class StrikeWorker < BaseWorker
         attacker.cookie = parse_cookie(response) if target.authenticated
         attacker.save
         @result = Result.create!(target: target, code: response.code, time: elapsed_time, volley: volley)
+      rescue NewSessionFailure => e
+        create_access_failure_result(1000)
+      rescue CreateSessionFailure => e
+        create_access_failure_result(2000)
       rescue Errno::ECONNREFUSED => e
-        create_connection_refused_result
+        create_access_failure_result(3000)
       end
     end
     sleep volley.delay
@@ -56,9 +60,13 @@ class StrikeWorker < BaseWorker
     attacker.cookie || Session.login(attacker, logger)
   end
 
-  private def create_connection_refused_result
-    @result = Result.create!(target: target, code: 999, time: nil, volley: volley)
+  private def create_access_failure_result(code)
+    @result = Result.create!(target: target, code: code, time: nil, volley: volley)
   end
+
+  class NewSessionFailure < StandardError; end
+
+  class CreateSessionFailure < StandardError; end
 
   class Session
     include CsrfHelper
@@ -82,10 +90,20 @@ class StrikeWorker < BaseWorker
 
     def login
       logger.info "Starting fresh login for Attacker ##{attacker.id}"
-      cookie, token = get_fresh_cookie_and_token(attacker.new_session_url)
-      http = Net::HTTP.start(uri.host, uri.port)
-      response = http.request(login_request(cookie, token))
-      http.finish
+      begin
+        cookie, token = get_fresh_cookie_and_token(attacker.new_session_url)
+      rescue StandardError => e
+        raise NewSessionFailure
+      end
+
+      begin
+        http = net_http_start(uri)
+        response = http.request(login_request(cookie, token))
+        http.finish
+      rescue StandardError => e
+        raise CreateSessionFailure
+      end
+
       check_response_code(response)
       logger.info "Successful fresh login for Attacker ##{attacker.id}"
       parse_cookie(response)

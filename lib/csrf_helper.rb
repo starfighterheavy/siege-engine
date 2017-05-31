@@ -1,7 +1,11 @@
 module CsrfHelper
+  def net_http_start(uri)
+    Net::HTTP.start(uri.host, uri.port, use_ssl: (uri.port == 443))
+  end
+
   def get_fresh_cookie_and_token(url)
     uri = URI.parse(url)
-    http = Net::HTTP.start(uri.host, uri.port)
+    http = net_http_start(uri)
     req = Net::HTTP::Get.new(uri)
     response = http.request req
     check_response_code(response)
