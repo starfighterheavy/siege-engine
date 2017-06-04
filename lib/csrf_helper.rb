@@ -40,8 +40,9 @@ module CsrfHelper
       .values[1]
   end
 
-  def check_response_code(response)
-    raise FailedRequest, response if response.code.to_i >= 400
+  def check_response_code(response, expected_status = nil)
+    code = response.code.to_i
+    raise FailedRequest, response if code >= 400 || expected_status && expected_status != code
   end
 
   class FailedRequest < StandardError

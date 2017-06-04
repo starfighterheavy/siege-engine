@@ -117,9 +117,9 @@ class StrikeWorker < BaseWorker
         http = net_http_start(uri)
         response = http.request(request)
         http.finish
-        check_response_code(response)
+        check_response_code(response, 302)
       rescue StandardError => e
-        raise CreateSessionFailure, e
+        raise CreateSessionFailure.new(e)
       end
 
       logger.info "Successful fresh registration for Attacker ##{attacker.id}"
@@ -150,7 +150,7 @@ class StrikeWorker < BaseWorker
         begin
           get_fresh_session(attacker.new_registration_url)
         rescue StandardError => e
-          raise NewRegistrationFailurei, e
+          raise NewRegistrationFailure.new(e)
         end
       end
     end
@@ -181,16 +181,16 @@ class StrikeWorker < BaseWorker
       begin
         cookie, token = get_fresh_cookie_and_token(attacker.new_session_url)
       rescue StandardError => e
-        raise NewSessionFailure, e
+        raise NewSessionFailure.new(e)
       end
 
       begin
         http = net_http_start(uri)
         response = http.request(login_request(cookie, token))
         http.finish
-        check_response_code(response)
+        check_response_code(response, 302)
       rescue StandardError => e
-        raise CreateSessionFailure, e
+        raise CreateSessionFailure.new(e)
       end
 
       logger.info "Successful fresh login for Attacker ##{attacker.id}"
