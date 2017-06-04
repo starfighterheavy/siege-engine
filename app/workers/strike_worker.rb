@@ -20,15 +20,14 @@ class StrikeWorker < BaseWorker
         response = http.request request
         http.finish
         elapsed_time = (Time.now - start_time) * 1000
-        attacker.cookie = parse_cookie(response) if target.authenticated
-        attacker.save
+        if target.authenticated
+          attacker.cookie = parse_cookie(response)
+          attacker.registration_required = false
+          attacker.save
+        end
         @result = Result.create!(target: target, code: response.code, time: elapsed_time, volley: volley)
-      rescue NewSessionFailure => e
-        create_access_failure_result(1000)
-      rescue CreateSessionFailure => e
-        create_access_failure_result(2000)
-      rescue Errno::ECONNREFUSED => e
-        create_access_failure_result(3000)
+      rescue StandardError => e
+        create_access_failure_result(e)
       end
     end
     sleep volley.delay
@@ -57,16 +56,105 @@ class StrikeWorker < BaseWorker
   end
 
   def cookie
-    attacker.cookie || Session.login(attacker, logger)
-  end
-
-  private def create_access_failure_result(code)
-    @result = Result.create!(target: target, code: code, time: nil, volley: volley)
+    attacker.cookie || begin
+      if attacker.registration_required?
+        Registration.create(attacker, logger)
+      else
+        Session.login(attacker, logger)
+      end
+    end
   end
 
   class NewSessionFailure < StandardError; end
 
   class CreateSessionFailure < StandardError; end
+
+  class NewRegistrationFailure < StandardError; end
+
+  class CreateRegistrationFailure < StandardError; end
+
+  ERROR_CODES = {
+    NewSessionFailure => 2000,
+    CreateSessionFailure => 3000,
+    NewRegistrationFailure => 4000,
+    CreateRegistrationFailure => 5000,
+    Errno::ECONNREFUSED => 1000
+  }
+
+  private def create_access_failure_result(error)
+    ERROR_CODES.each do |error_class, code|
+      next unless error.is_a? error_class
+      logger.fatal error.to_s
+      @result = Result.create!(target: target, code: code, time: nil, volley: volley)
+      break
+    end
+    raise error
+  end
+
+  class Registration
+    include CsrfHelper
+
+    def self.create(attacker, logger)
+      new(attacker, logger).register
+    end
+
+    def initialize(attacker, logger)
+      @attacker = attacker
+      @logger = logger
+    end
+
+    def logger
+      @logger
+    end
+
+    def attacker
+      @attacker
+    end
+
+    def register
+      logger.info "Starting fresh registration for Attacker ##{attacker.id}"
+      begin
+        http = net_http_start(uri)
+        response = http.request(request)
+        http.finish
+        check_response_code(response)
+      rescue StandardError => e
+        raise CreateSessionFailure, e
+      end
+
+      logger.info "Successful fresh registration for Attacker ##{attacker.id}"
+      parse_cookie(response)
+    end
+
+    def uri
+      URI.parse(attacker.create_registration_url)
+    end
+
+    def request
+      req = Net::HTTP::Post.new(uri)
+      req['cookie'] = session[:cookie]
+      req.set_form_data(params.merge(authenticity_token: session[:token]))
+      req
+    end
+
+    def params
+      attacker
+        .registration_form_values # a[b]=c&d[e]=f
+        .split('&') # ['a[b]=c', 'd[e]=f']
+        .map{ |field| field.split('=') } # [['a[b]', 'c'], ['d[e]', 'f']]
+        .to_h
+    end
+
+    def session
+      @session ||= begin
+        begin
+          get_fresh_session(attacker.new_registration_url)
+        rescue StandardError => e
+          raise NewRegistrationFailurei, e
+        end
+      end
+    end
+  end
 
   class Session
     include CsrfHelper
@@ -93,18 +181,18 @@ class StrikeWorker < BaseWorker
       begin
         cookie, token = get_fresh_cookie_and_token(attacker.new_session_url)
       rescue StandardError => e
-        raise NewSessionFailure
+        raise NewSessionFailure, e
       end
 
       begin
         http = net_http_start(uri)
         response = http.request(login_request(cookie, token))
         http.finish
+        check_response_code(response)
       rescue StandardError => e
-        raise CreateSessionFailure
+        raise CreateSessionFailure, e
       end
 
-      check_response_code(response)
       logger.info "Successful fresh login for Attacker ##{attacker.id}"
       parse_cookie(response)
     end
@@ -115,7 +203,7 @@ class StrikeWorker < BaseWorker
 
     def login_request(cookie, token)
       req = Net::HTTP::Post.new(uri)
-      req['Cookie'] = cookie
+      req['cookie'] = cookie
       req.set_form_data(login_params.merge(authenticity_token: token))
       req
     end

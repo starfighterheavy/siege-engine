@@ -23,6 +23,7 @@ group :test do
 end
 
 group :development, :test do
+  gem 'awesome_print'
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'pry'
   gem 'webmock'

@@ -4,6 +4,7 @@ Rails.application.routes.draw do
       resources :sieges do
         resources :volleys do
           member do
+            get :wait
             patch :start
             patch :restart
             patch :pause

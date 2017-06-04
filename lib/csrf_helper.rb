@@ -13,6 +13,17 @@ module CsrfHelper
     return parse_cookie(response), parse_crsf_token(response)
   end
 
+  def get_fresh_session(url)
+    uri = URI.parse(url)
+    http = net_http_start(uri)
+    req = Net::HTTP::Get.new(uri)
+    response = http.request req
+    check_response_code(response)
+    http.finish
+    { cookie: parse_cookie(response), token: parse_crsf_token(response) }
+  end
+
+
   def parse_cookie(response)
     all_cookies = response.get_fields('set-cookie')
     cookies_array = Array.new

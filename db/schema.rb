@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170530233609) do
+ActiveRecord::Schema.define(version: 20170601193016) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -38,6 +38,10 @@ ActiveRecord::Schema.define(version: 20170530233609) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "create_session_url"
+    t.string "new_registration_url"
+    t.string "create_registration_url"
+    t.text "registration_form_values"
+    t.boolean "registration_required", default: false
     t.index ["siege_id"], name: "index_attackers_on_siege_id"
   end
 

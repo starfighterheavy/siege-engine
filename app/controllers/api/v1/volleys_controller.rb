@@ -1,6 +1,13 @@
 module Api
   module V1
     class VolleysController < RestApiController
+
+      class WaitedTooLong < StandardError; end
+
+      rescue_from WaitedTooLong do |e|
+        render json: { errors: [ e.to_s ] }, status: 500
+      end
+
       def restart
         resource.restart!
         render json: resource.to_h
@@ -28,6 +35,20 @@ module Api
         else
           update_status('canceled')
         end
+      end
+
+      WAIT_MAX = 23
+      WAIT_INCREMENT = 0.1
+      def wait
+        timer = 0
+        increment = WAIT_INCREMENT
+        while resource.status != 'done'
+          raise WaitedTooLong unless timer <= WAIT_MAX
+          sleep increment
+          timer += increment
+          resource.reload
+       end
+        head :ok
       end
 
       resource_owner_name :siege

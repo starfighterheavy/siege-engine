@@ -54,6 +54,7 @@ GEM
     arel (8.0.0)
     attr_encrypted (3.0.3)
       encryptor (~> 3.0.0)
+    awesome_print (1.7.0)
     bindex (0.5.0)
     builder (3.2.3)
     byebug (9.0.6)
@@ -224,6 +225,7 @@ PLATFORMS
 
 DEPENDENCIES
   attr_encrypted (~> 3.0.0)
+  awesome_print
   byebug
   cucumber-api!
   dotenv
