@@ -90,7 +90,7 @@ class StrikeWorker < BaseWorker
       next unless error.is_a? error_class
       logger.fatal error.to_s
       @result = Result.create!(target: target, code: code, time: nil, volley: volley)
-      break
+      return
     end
     raise error
   end
@@ -123,7 +123,8 @@ class StrikeWorker < BaseWorker
         http.finish
         check_response_code(response, 302)
       rescue StandardError => e
-        raise CreateSessionFailure.new(e)
+        logger.info "Exception: #{e}"
+        raise CreateSessionFailure
       end
 
       logger.info "Successful fresh registration for Attacker ##{attacker.id}"
@@ -154,7 +155,8 @@ class StrikeWorker < BaseWorker
         begin
           get_fresh_session(attacker.new_registration_url)
         rescue StandardError => e
-          raise NewRegistrationFailure.new(e)
+          logger.info "Exception: #{e}"
+          raise NewRegistrationFailure
         end
       end
     end
