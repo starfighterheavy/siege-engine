@@ -20,8 +20,12 @@ class StrikeWorker < BaseWorker
         response = http.request request
         http.finish
         elapsed_time = (Time.now - start_time) * 1000
-        if target.authenticated
-          attacker.cookie = parse_cookie(response)
+        if target.authenticated && response.code.to_i < 300
+          if ENV.fetch('DB_REFRESH'){ false }
+            attacker.cookie = parse_cookie(response)
+          elsif cookie != attacker.cookie
+            attacker.cookie = cookie
+          end
           attacker.registration_required = false
           attacker.save
         end
@@ -56,7 +60,7 @@ class StrikeWorker < BaseWorker
   end
 
   def cookie
-    attacker.cookie || begin
+    @cookie ||= attacker.cookie || begin
       if attacker.registration_required?
         Registration.create(attacker, logger)
       else
