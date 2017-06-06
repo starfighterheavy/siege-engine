@@ -1,0 +1,33 @@
+{
+  "name": "siege-engine",
+  "scripts": {
+  },
+  "env": {
+    "LANG": {
+      "required": true
+    },
+    "RACK_ENV": "development",
+    "RAILS_ENV": "development",
+    "RAILS_LOG_TO_STDOUT": "enabled",
+    "RAILS_SERVE_STATIC_FILES": "enabled",
+    "SECRET_KEY_BASE": {
+      "generator": "secret"
+    },
+    "SIDEKIQ": "true",
+    "WEBMOCK": "false"
+  },
+  "formation": {
+  },
+  "addons": [
+    "fixie",
+    "papertrail",
+    "heroku-postgresql",
+    "heroku-postgresql",
+    "heroku-redis"
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/ruby"
+    }
+  ]
+}
