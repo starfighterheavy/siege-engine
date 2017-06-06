@@ -22,7 +22,6 @@
     "fixie",
     "papertrail",
     "heroku-postgresql",
-    "heroku-postgresql",
     "heroku-redis"
   ],
   "buildpacks": [
