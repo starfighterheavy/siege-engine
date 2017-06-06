@@ -1,6 +1,15 @@
 module CsrfHelper
   def net_http_start(uri)
-    Net::HTTP.start(uri.host, uri.port, use_ssl: (uri.port == 443))
+    opts = {}
+    if ENV['http_proxy']
+      proxy = URI.parse(ENV['http_proxy'])
+      opts[:p_addr] = proxy.host
+      opts[:p_port] = proxy.port
+      opts[:p_user] = proxy.user
+      opts[:p_password] = proxy.password
+    end
+    opts[:use_ssl] = uri.port == 443
+    Net::HTTP.start(uri.host, uri.port, opts[:p_addr], opts[:p_port], opts[:p_user], opts[:p_password], use_ssl: opts[:use_ssl])
   end
 
   def get_fresh_cookie_and_token(url)

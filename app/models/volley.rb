@@ -39,7 +39,7 @@ class Volley < ActiveRecord::Base
   end
 
   def target_strike_count(priority, sum_priority)
-    (strikes.to_f * (priority.to_f / sum_priority.to_f)).to_i
+    (strikes.to_f * (priority.to_f / sum_priority.to_f)).ceil
   end
 
   private def status_change_listener
