@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170601193016) do
+ActiveRecord::Schema.define(version: 20170823162837) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -61,6 +61,7 @@ ActiveRecord::Schema.define(version: 20170601193016) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "volley_id"
+    t.text "body"
     t.index ["target_id"], name: "index_results_on_target_id"
   end
 
