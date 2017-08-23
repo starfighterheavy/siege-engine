@@ -20,7 +20,7 @@ Feature: Siege API
     When I set JSON request body to:
     """
     {
-      "siege": { "name": "bob" }
+      "siege": { "name": "bob", "store_body": false }
     }
     """
     When I send a PATCH request to "{se_host}/api/v1/sieges/{siege_id}"

@@ -8,6 +8,7 @@ class Siege < ActiveRecord::Base
     {
       id: id,
       name: name,
+      store_body: store_body,
       attackers_count: attackers.count,
       targets_count: targets.count,
       volleys: volleys.map(&:to_h)

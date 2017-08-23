@@ -29,7 +29,9 @@ class StrikeWorker < BaseWorker
           attacker.registration_required = false
           attacker.save
         end
-        @result = Result.create!(target: target, code: response.code, time: elapsed_time, volley: volley)
+        result_params = { target: target, code: response.code, time: elapsed_time, volley: volley }
+        result_params.merge!(body: response.body) if volley.siege.store_body
+        @result = Result.create!(result_params)
       rescue StandardError => e
         create_access_failure_result(e)
       end
