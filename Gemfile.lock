@@ -10,6 +10,12 @@ GIT
       jsonpath (~> 0.5)
       rest-client (~> 1.8)
 
+GIT
+  remote: https://github.com/jskirst/rapido.git
+  revision: 0f3e1b3e183c50da4e30c9a6c078d697a11b48d5
+  specs:
+    rapido (0.1.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -238,6 +244,7 @@ DEPENDENCIES
   pry
   puma (~> 3.7)
   rails (~> 5.1.0)
+  rapido (= 0.1.0)!
   redis (~> 3.0)
   rspec
   sidekiq
