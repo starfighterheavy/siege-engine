@@ -6,7 +6,7 @@ module Api
       end
 
       private def resource_create_permitted_params
-        [:name]
+        [:name, :store_body]
       end
       alias :resource_update_permitted_params :resource_create_permitted_params
     end

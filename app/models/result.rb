@@ -16,6 +16,7 @@ class Result < ActiveRecord::Base
       volley_id: volley_id,
       target: target.to_h,
       code: code,
+      body: body,
       time: time,
       created_at: created_at
     }
