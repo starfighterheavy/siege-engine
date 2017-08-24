@@ -14,7 +14,7 @@ class ReportWorker < BaseWorker
   end
 
   def report
-    @report ||= Report.find(opts[:report_id])
+    @report ||= Report.find(opts['report_id'])
   end
 
   def volley
