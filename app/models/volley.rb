@@ -39,6 +39,7 @@ class Volley < ActiveRecord::Base
   end
 
   def target_strike_count(priority, sum_priority)
+    return 1 if sum_priority.to_f == 0
     (strikes.to_f * (priority.to_f / sum_priority.to_f)).ceil
   end
 
