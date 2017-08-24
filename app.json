@@ -13,13 +13,16 @@
     "SECRET_KEY_BASE": {
       "generator": "secret"
     },
+    "SE_ACCESS_KEY_ID": {
+      "generator": "secret"
+    },
+    "SE_ACCESS_KEY_SECRET": {
+      "generator": "secret"
+    },
     "SIDEKIQ": "true",
     "WEBMOCK": "false"
   },
-  "formation": {
-  },
   "addons": [
-    "fixie",
     "papertrail",
     "heroku-postgresql",
     "heroku-redis"
@@ -28,5 +31,20 @@
     {
       "url": "heroku/ruby"
     }
-  ]
+  ],
+  "environments": {
+    "production": {
+      "addons": [
+        {
+          "plan": "heroku-postgresql:standard-1x"
+        },
+        {
+          "plan": "heroku-redis:premium-0"
+        },
+        {
+          "plan": "papertrail:choklad"
+        }
+      ]
+    }
+  }
 }
