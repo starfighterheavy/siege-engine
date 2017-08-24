@@ -1,3 +1,5 @@
+require 'net/http'
+
 module CsrfHelper
   def net_http_start(uri)
     opts = {}
