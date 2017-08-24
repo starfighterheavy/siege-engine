@@ -1,6 +1,7 @@
 {
   "name": "siege-engine",
   "scripts": {
+    "postdeploy": "bundle exec rake db:migrate db:seed seed:access_key"
   },
   "env": {
     "LANG": "en_US.UTF-8",
@@ -21,9 +22,15 @@
     "WEBMOCK": "false"
   },
   "addons": [
-    "papertrail",
-    "heroku-postgresql",
-    "heroku-redis"
+    {
+      "plan": "heroku-postgresql:standard-1x"
+    },
+    {
+      "plan": "heroku-redis:premium-0"
+    },
+    {
+      "plan": "papertrail:choklad"
+    }
   ],
   "buildpacks": [
     {
@@ -42,6 +49,13 @@
         {
           "plan": "papertrail:choklad"
         }
+      ]
+    },
+    "test": {
+      "addons": [
+        "papertrail",
+        "heroku-postgresql",
+        "heroku-redis"
       ]
     }
   }
