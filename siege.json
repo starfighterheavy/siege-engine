@@ -17,7 +17,7 @@
         {
           "priority": "100",
           "method": "GET",
-          "url": "https://www.example.com/home"
+          "url": "https://www.example.com/home",
           "content_type": "text/html",
           "authenticated": true
         }
