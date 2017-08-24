@@ -1,7 +1,7 @@
 {
   "name": "siege-engine",
   "scripts": {
-    "postdeploy": "bundle exec rake db:migrate db:seed seed:access_key"
+    "postdeploy": "bundle exec rake db:migrate db:seed seed:access_key seed:siege"
   },
   "env": {
     "LANG": "en_US.UTF-8",
