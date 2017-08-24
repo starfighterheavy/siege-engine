@@ -11,13 +11,13 @@ class TemplateParser
   end
 
   def parse
-    attackers = template.delete("attackers")
+    attackers = template.delete("attackers") || []
+    volleys = template.delete("volleys") || []
     @siege.assign_attributes(template)
     @siege.save!
 
-    attackers.each do |attacker|
-      parse_attacker(attacker)
-    end
+    attackers.each { |attacker| parse_attacker(attacker) }
+    volleys.each { |volley| parse_volley(volley) }
     puts "Siege Created: #{@siege.id}"
   end
 
@@ -27,5 +27,9 @@ class TemplateParser
     targets.each do |target|
       attacker.targets.create!(target.merge("siege_id" => @siege.id))
     end
+  end
+
+  def parse_volley(volley)
+    @siege.volleys.create!(volley)
   end
 end

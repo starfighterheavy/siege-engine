@@ -23,5 +23,12 @@
         }
       ]
     }
+  ],
+  "sieges": [
+    {
+      "name": "First volley",
+      "strikes": 100,
+      "delay": 10
+    }
   ]
 }
