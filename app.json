@@ -23,7 +23,7 @@
   },
   "addons": [
     {
-      "plan": "heroku-postgresql:standard-1x"
+      "plan": "heroku-postgresql:hobby-basic"
     },
     {
       "plan": "heroku-redis:premium-0"
@@ -36,27 +36,5 @@
     {
       "url": "heroku/ruby"
     }
-  ],
-  "environments": {
-    "production": {
-      "addons": [
-        {
-          "plan": "heroku-postgresql:standard-1x"
-        },
-        {
-          "plan": "heroku-redis:premium-0"
-        },
-        {
-          "plan": "papertrail:choklad"
-        }
-      ]
-    },
-    "test": {
-      "addons": [
-        "papertrail",
-        "heroku-postgresql",
-        "heroku-redis"
-      ]
-    }
-  }
+  ]
 }
