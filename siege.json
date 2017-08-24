@@ -1,0 +1,27 @@
+{
+  "name": "Example Siege",
+  "store_body": false,
+  "attackers": [
+    {
+      "username": "bob@example.com",
+      "password": "ohgodchangeme",
+      "username_field": "user[email]",
+      "password_field": "user[password]",
+      "new_session_url": "https://www.example.com/users/sign_in",
+      "create_session_url": "https://www.example.com/users/sign_in",
+      "registration_required": true,
+      "new_registration_url": "https://www.example.com/users/sign_up",
+      "create_registration_url": "https://www.example.com/users",
+      "registration_form_values": "user[email]=bob@example.com&user[password]=ohgodchangeme",
+      "targets": [
+        {
+          "priority": "100",
+          "method": "GET",
+          "url": "https://www.example.com/home",
+          "content_type": "text/html",
+          "authenticated": true
+        }
+      ]
+    }
+  ]
+}
