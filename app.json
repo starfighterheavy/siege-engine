@@ -24,6 +24,14 @@
       "required": false
     }
   },
+  "formation": {
+    "web": {
+      "quantity": 1
+    },
+    "worker": {
+      "quantity": 1
+    }
+  },
   "addons": [
     {
       "plan": "heroku-postgresql:hobby-basic"
