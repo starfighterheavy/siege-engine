@@ -19,7 +19,10 @@
       "generator": "secret"
     },
     "SIDEKIQ": "true",
-    "WEBMOCK": "false"
+    "WEBMOCK": "false",
+    "SIEGE_TEMPLATE_URL": {
+      "required": false
+    }
   },
   "addons": [
     {
