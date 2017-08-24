@@ -2,6 +2,8 @@
 
 Siege Engine is a performance testing tool based on Sidekiq.
 
+[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy?template=https://github.com/starfighterheavy/siege-engine)
+
 # How to test
 
 To run tests in isolation without actually hitting a target server or using Sidekiq.
@@ -28,7 +30,6 @@ To Run tests with Sidekiq,
 1. Push to your origin repository.
 1. Create a new PR in GitHub.
 1. Respond to any code review feedback.
-
 
 ## License
  
