@@ -1,6 +1,7 @@
 namespace :seed do
   require 'dotenv'
   require 'open-uri'
+  require 'template_parser'
 
   Dotenv.load('.env.development', '.env')
 
@@ -21,6 +22,6 @@ namespace :seed do
   task siege: :environment do
     key = get_access_key
     template = get_siege_template
-    puts template
+    TemplateParser.parse(key, template)
   end
 end
