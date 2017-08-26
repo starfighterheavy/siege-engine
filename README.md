@@ -1,5 +1,7 @@
 # Siege Engine
 
+[![Code Climate](https://codeclimate.com/github/starfighterheavy/siege-engine/badges/gpa.svg)](https://codeclimate.com/github/starfighterheavy/siege-engine)
+
 Siege Engine is a performance testing tool based on Sidekiq.
 
 [![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy?template=https://github.com/starfighterheavy/siege-engine)
