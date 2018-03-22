@@ -17,6 +17,8 @@ gem 'dotenv'
 gem 'dotenv-rails'
 gem 'pager_api'
 gem 'kaminari'
+gem 'rails-rapido', path: '../rapido'
+gem 'cucumber-api-steps'
 
 group :test do
   gem 'cucumber-api', github: 'jskirst/cucumber-api', branch: 'default-headers', require: false
