@@ -1,6 +1,14 @@
 module Api
   module V1
-    class VolleysController < RestApiController
+    class VolleysController < ApiController
+      include Rapido::Controller
+      include Rapido::ApiController
+
+      attr_permitted :name, :strikes, :delay, :uid
+
+      belongs_to :siege, foreign_key: :uid, owner: :current_access_key
+
+      lookup_param :uid
 
       class WaitedTooLong < StandardError; end
 
@@ -9,12 +17,12 @@ module Api
       end
 
       def restart
-        resource.restart!
-        render json: resource.to_h
+        volley.restart!
+        render json: volley.to_h
       end
 
       def start
-        unless resource.status.nil?
+        unless volley.status.nil?
           render json: { errors: [ 'Volley already been started or canceled' ] }, status: 422
         else
           update_status('started')
@@ -22,7 +30,7 @@ module Api
       end
 
       def pause
-        if [nil, 'paused', 'canceled'].include? resource.status
+        if [nil, 'paused', 'canceled'].include? volley.status
           render json: { errors: [ 'Volley is not running' ] }, status: 422
         else
           update_status('paused')
@@ -30,7 +38,7 @@ module Api
       end
 
       def cancel
-        if resource.status == 'canceled'
+        if volley.status == 'canceled'
           render json: { errors: [ 'Volley has already been canceled' ] }, status: 422
         else
           update_status('canceled')
@@ -42,26 +50,19 @@ module Api
       def wait
         timer = 0
         increment = WAIT_INCREMENT
-        while resource.status != 'done'
+        while volley.status != 'done'
           raise WaitedTooLong unless timer <= WAIT_MAX
           sleep increment
           timer += increment
-          resource.reload
+          volley.reload
        end
         head :ok
       end
 
-      resource_owner_name :siege
-
       private def update_status(status)
-        resource.update_attribute(:status, status)
-        render json: resource.to_h
+        volley.update_attribute(:status, status)
+        render json: volley.to_h
       end
-
-      private def resource_create_permitted_params
-        [:name, :strikes, :delay]
-      end
-      alias :resource_update_permitted_params :resource_create_permitted_params
     end
   end
 end

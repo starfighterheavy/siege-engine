@@ -1,23 +1,14 @@
 module Api
   module V1
-    class TargetsController < RestApiController
-      before_action :authorize_attacker
+    class TargetsController < ApiController
+      include Rapido::Controller
+      include Rapido::ApiController
 
-      resource_owner_name :attacker
+      attr_permitted :priority, :method, :url, :body, :content_type, :authenticated, :uid
 
-      private def resource_create_params
-        params.require(:target)
-              .permit(:priority, :method, :url, :body, :content_type, :authenticated)
-              .merge(siege_id: @siege.id)
-      end
+      belongs_to :attacker, foreign_key: :uid, owner: :current_access_key
 
-      private def resource_update_permitted_params
-        [:priority, :method, :url, :body, :content_type, :authenticated]
-      end
-
-      private def authorize_attacker
-        @siege = @access_key.sieges.find(resource_owner.siege_id)
-      end
+      lookup_param :uid
     end
   end
 end

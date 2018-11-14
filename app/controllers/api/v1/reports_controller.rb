@@ -1,18 +1,18 @@
 module Api
   module V1
-    class ReportsController < RestApiController
-      before_action :authorize_volley
+    class ReportsController < ApiController
+      include Rapido::Controller
+      include Rapido::ApiController
 
-      resource_owner_name :volley
+      attr_permitted :name, :uid
+
+      belongs_to :volley, foreign_key: :uid, owner: :current_access_key
+
+      lookup_param :uid
 
       def download
-        render plain: resource.content, content_type: "text/csv"
+        render plain: report.content, content_type: "text/csv"
       end
-
-      private def resource_create_permitted_params
-        [:name]
-      end
-      alias :resource_update_permitted_params :resource_create_permitted_params
     end
   end
 end

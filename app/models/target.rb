@@ -1,10 +1,17 @@
 class Target < ActiveRecord::Base
   belongs_to :attacker
-  belongs_to :siege
+
+  before_create do
+    self.uid ||= SecureRandom.uuid
+  end
+
+  def siege
+    attacker.siege
+  end
 
   def to_h
     {
-      id: id,
+      uid: uid,
       attacker_id: attacker.id,
       priority: priority,
       method: method,

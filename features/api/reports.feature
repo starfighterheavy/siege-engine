@@ -7,23 +7,22 @@ Feature: Reports API
     Given I have a Report
 
   Scenario: Retrieve an Report
-    When I send a GET request to "{se_host}/api/v1/volleys/{volley_id}/reports/{report_id}"
+    When I send a GET request to "/api/v1/volleys/V1/reports/R1"
     Then the response status should be "200"
 
   Scenario: Get all Reports
-    When I send a GET request to "{se_host}/api/v1/volleys/{volley_id}/reports"
+    When I send a GET request to "/api/v1/volleys/V1/reports"
     Then the response status should be "200"
 
   Scenario: Delete a Report
-    When I send a DELETE request to "{se_host}/api/v1/volleys/{volley_id}/reports/{report_id}"
+    When I send a DELETE request to "/api/v1/volleys/V1/reports/R1"
     Then the response status should be "200"
 
   Scenario: Update a Report
-    When I set JSON request body to:
+    When I send a PATCH request to "/api/v1/volleys/V1/reports/R1" with the following:
     """
     {
       "report": { "name": "bob" }
     }
     """
-    When I send a PATCH request to "{se_host}/api/v1/volleys/{volley_id}/reports/{report_id}"
     Then the response status should be "200"

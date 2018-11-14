@@ -1,16 +1,14 @@
 Given('I have a Report') do
   steps %Q{
-    When I set JSON request body to:
+    When I send a POST request to "/api/v1/volleys/V1/reports" with the following:
     """
     {
       "report": {
+        "uid": "R1",
         "name": "Test"
       }
     }
     """
-    When I send a POST request to "{se_host}/api/v1/volleys/{volley_id}/reports"
-    Then the response status should be "200"
-    And the JSON response should have key "id"
-    And I grab "$..id" as "report_id"
+    Then the response status should be "201"
   }
 end

@@ -1,4 +1,5 @@
-require 'cucumber-api'
+require 'cucumber/rails'
+require 'cucumber/api_steps'
 require 'sidekiq'
 require 'sidekiq/testing'
 require 'rspec/expectations'
@@ -9,7 +10,7 @@ unless ENV['SIDEKIQ'] == 'true'
 end
 
 require 'dotenv'
-Dotenv.load('.env.development', '.env')
+Dotenv.load('.env.test', '.env')
 
 puts '### Configuration ###'
 %w(SE_ACCESS_KEY_ID SE_SECRET_ACCESS_KEY SE_API_URL).each do |key|
@@ -17,6 +18,10 @@ puts '### Configuration ###'
   puts "#{key}=#{ENV[key]}"
 end
 
-%w(SE_HOST TARGET_HOST).each do |key|
-  puts "#{key}=#{ENV[key]}"
-end
+ActiveRecord::Migration.maintain_test_schema!
+
+ActionController::Base.allow_rescue = true
+
+DatabaseCleaner.strategy = :transaction
+
+Cucumber::Rails::Database.javascript_strategy = :truncation

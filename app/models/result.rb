@@ -4,6 +4,10 @@ class Result < ActiveRecord::Base
 
   default_scope { includes(:target) }
 
+  before_create do
+    self.uid ||= SecureRandom.uuid
+  end
+
   after_commit do
     volley.with_lock do
       volley.done! if volley.results.count == volley.strikes
@@ -12,8 +16,8 @@ class Result < ActiveRecord::Base
 
   def to_h
     {
-      id: id,
-      volley_id: volley_id,
+      uid: uid,
+      volley_uid: volley.uid,
       target: target.to_h,
       code: code,
       body: body,

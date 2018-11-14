@@ -6,25 +6,24 @@ Feature: Attackers API
     Given I have an Attacker
 
   Scenario: Retrieve an Attacker
-    When I send a GET request to "{se_host}/api/v1/sieges/{siege_id}/attackers/{attacker_id}"
+    When I send a GET request to "/api/v1/sieges/S1/attackers/A1"
     Then the response status should be "200"
 
   Scenario: Get all Attackers
-    When I send a GET request to "{se_host}/api/v1/sieges/{siege_id}/attackers"
+    When I send a GET request to "/api/v1/sieges/S1/attackers"
     Then the response status should be "200"
 
   Scenario: Delete a Attacker
-    When I send a DELETE request to "{se_host}/api/v1/sieges/{siege_id}/attackers/{attacker_id}"
+    When I send a DELETE request to "/api/v1/sieges/S1/attackers/A1"
     Then the response status should be "200"
-    When I send a GET request to "{se_host}/api/v1/sieges/{siege_id}/attackers/{attacker_id}"
+    When I send a GET request to "/api/v1/sieges/S1/attackers/A1"
     Then the response status should be "404"
 
   Scenario: Update a Attacker
-    When I set JSON request body to:
+    When I send a PATCH request to "/api/v1/sieges/S1/attackers/A1" with the following:
     """
     {
       "attacker": { "username": "bob" }
     }
     """
-    When I send a PATCH request to "{se_host}/api/v1/sieges/{siege_id}/attackers/{attacker_id}"
     Then the response status should be "200"

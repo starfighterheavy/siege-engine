@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170823163037) do
+ActiveRecord::Schema.define(version: 2018_11_12_202424) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -42,6 +42,7 @@ ActiveRecord::Schema.define(version: 20170823163037) do
     t.string "create_registration_url"
     t.text "registration_form_values"
     t.boolean "registration_required", default: false
+    t.string "uid"
     t.index ["siege_id"], name: "index_attackers_on_siege_id"
   end
 
@@ -52,6 +53,7 @@ ActiveRecord::Schema.define(version: 20170823163037) do
     t.datetime "updated_at", null: false
     t.string "name"
     t.integer "volley_id"
+    t.string "uid"
   end
 
   create_table "results", force: :cascade do |t|
@@ -62,6 +64,7 @@ ActiveRecord::Schema.define(version: 20170823163037) do
     t.datetime "updated_at", null: false
     t.integer "volley_id"
     t.text "body"
+    t.string "uid"
     t.index ["target_id"], name: "index_results_on_target_id"
   end
 
@@ -71,6 +74,7 @@ ActiveRecord::Schema.define(version: 20170823163037) do
     t.datetime "updated_at", null: false
     t.string "name"
     t.boolean "store_body"
+    t.string "uid"
     t.index ["access_key_id"], name: "index_sieges_on_access_key_id"
   end
 
@@ -86,6 +90,7 @@ ActiveRecord::Schema.define(version: 20170823163037) do
     t.datetime "updated_at", null: false
     t.boolean "authenticated", default: true
     t.datetime "locked_at"
+    t.string "uid"
     t.index ["attacker_id"], name: "index_targets_on_attacker_id"
     t.index ["siege_id"], name: "index_targets_on_siege_id"
   end
@@ -96,6 +101,7 @@ ActiveRecord::Schema.define(version: 20170823163037) do
     t.string "status"
     t.integer "strikes"
     t.integer "delay", default: 0
+    t.string "uid"
   end
 
 end

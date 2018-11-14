@@ -1,4 +1,4 @@
-ruby '2.3.4'
+ruby '2.5.1'
 source 'https://rubygems.org'
 
 git_source(:github) do |repo_name|
@@ -6,35 +6,40 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
-gem 'attr_encrypted', '~> 3.0.0'
-gem 'jbuilder', '~> 2.5'
-gem 'puma', '~> 3.7'
-gem 'rails', '~> 5.1.0'
-gem 'redis', '~> 3.0'
-gem 'sidekiq'
-gem 'pg'
+gem 'attr_encrypted', '> 3.0.0'
+gem 'bootsnap'
 gem 'dotenv'
 gem 'dotenv-rails'
-gem 'pager_api'
-gem 'kaminari'
-gem 'rails-rapido', path: '../rapido'
-gem 'cucumber-api-steps'
+gem 'jbuilder', '> 2.5'
+gem 'pg'
+gem 'puma', '> 3.7'
+gem 'rails', '~> 5.2'
+gem 'redis', '> 3.0'
+gem 'sidekiq'
+gem 'rails-rapido'
 
 group :test do
-  gem 'cucumber-api', github: 'jskirst/cucumber-api', branch: 'default-headers', require: false
+  gem 'cucumber', '~> 3.1'
+  # Use: Testing framework
+  # URL: https://github.com/cucumber/cucumber-ruby
+
+  gem 'cucumber-api-steps'
+
+  gem 'cucumber-rails', '>= 1.6', require: false
+  # Use: Rails adapter for cucumber
+  # URL: https://github.com/cucumber/cucumber-rails
+
+  gem 'database_cleaner', '~> 1.6'
+  # Use: Cleans test data between test runs
+  # URL: https://github.com/DatabaseCleaner/database_cleaner
 end
 
 group :development, :test do
   gem 'awesome_print'
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'pry'
-  gem 'webmock'
   gem 'rspec'
-end
-
-group :development do
-  gem 'listen', '>= 3.0.5', '< 3.2'
-  gem 'web-console', '>= 3.3.0'
+  gem 'webmock'
 end
 
 group :staging, :production do

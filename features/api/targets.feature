@@ -7,25 +7,24 @@ Feature: Targets API
     Given I have a Target
 
   Scenario: Retrieve an Target
-    When I send a GET request to "{se_host}/api/v1/attackers/{attacker_id}/targets/{target_id}"
+    When I send a GET request to "/api/v1/attackers/A1/targets/T1"
     Then the response status should be "200"
 
   Scenario: Get all Targets
-    When I send a GET request to "{se_host}/api/v1/attackers/{attacker_id}/targets"
+    When I send a GET request to "/api/v1/attackers/A1/targets"
     Then the response status should be "200"
 
   Scenario: Delete a Target
-    When I send a DELETE request to "{se_host}/api/v1/attackers/{attacker_id}/targets/{target_id}"
+    When I send a DELETE request to "/api/v1/attackers/A1/targets/T1"
     Then the response status should be "200"
-    When I send a DELETE request to "{se_host}/api/v1/attackers/{attacker_id}/targets/{target_id}"
+    When I send a DELETE request to "/api/v1/attackers/A1/targets/T1"
     Then the response status should be "404"
 
   Scenario: Update a Target
-    When I set JSON request body to:
+    When I send a PATCH request to "/api/v1/attackers/A1/targets/T1" with the following:
     """
     {
       "target": { "url": "bob" }
     }
     """
-    When I send a PATCH request to "{se_host}/api/v1/attackers/{attacker_id}/targets/{target_id}"
     Then the response status should be "200"

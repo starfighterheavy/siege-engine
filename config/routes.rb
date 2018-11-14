@@ -1,8 +1,8 @@
 Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
-      resources :sieges do
-        resources :volleys do
+      resources :sieges, param: :uid do
+        resources :volleys, param: :uid do
           member do
             get :wait
             patch :start
@@ -12,21 +12,26 @@ Rails.application.routes.draw do
           end
         end
 
-        resources :attackers
+        resources :attackers, param: :uid
       end
 
-      resources :attackers do
-        resources :targets
+      resources :attackers, param: :uid do
+        resources :targets, param: :uid
       end
 
-      resources :volleys do
-        resources :results
-        resources :reports do
+      resources :volleys, param: :uid do
+        resources :results, param: :uid
+        resources :reports, param: :uid do
           member do
             get :download
           end
         end
       end
     end
+  end
+
+  namespace :test do
+    resources :secrets
+    resources :blogs
   end
 end
